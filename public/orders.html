@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1> Manage Orders</h1>
+        <a href="index.html"> Back to Index</a>
+    </header>
+    <main>
+        <section id="add-order">
+            <h2>Create New Order</h2>
+            <form id="order-form">
+                <label for="ostoreID">Store ID:</label><br/>
+                <input type="number" id="ostoreID" name="storeID" required><br/>
+                <label for="customerID">Customer ID:</label><br/>
+                <input type="number" id="customerID" name="customerID" required><br/>
+                <label for="orderDate">Order Date:</label><br/>
+                <input type="datetime-local" id="orderDate" name="orderDate" required><br/>
+                <label for="totalAmount">Total Amount:</label><br/>
+                <input type="number" id="totalAmount" name="totalAmount" step="0.01" required><br/>
+                <label for="orderStatus">Status:</label><br/>
+                <select id="orderStatus" name="orderStatus" required>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select><br/>
+                <button type="submit">Create Order</button>
+            </form>
+        </section>
+        
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Menu Items</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1> Manage Menu Items</h1>
+        <a href="index.html"> Back to Index</a>
+    </header>
+    <main>
+        <section id="add-menuitem">
+            <h2>Add Menu Item</h2>
+            <form id="menuitem-form">
+                <label for="itemName">Item Name:</label><br/>
+                <input type="text" id="itemName" name="itemName" required><br/>
+                <label for="description">Description:</label><br/>
+                <textarea id="description" name="description"></textarea><br/>
+                <label for="price">Price:</label><br/>
+                <input type="number" id="price" name="price" step="0.01" required><br/>
+                <label for="category">Category:</label><br/>
+                <select id="category" name="category" required>
+                    <option value="Ramen">Ramen</option>
+                    <option value="Side">Side</option>
+                    <option value="Beverage">Beverage</option>
+                </select><br/>
+                <button type="submit">Add Menu Item</button>
+            </form>
+        </section>
+        
+    </main>
+</body>
+</html>
