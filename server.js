@@ -1,12 +1,10 @@
-// server.js
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = 3000;
+const PORT = 9888; 
 
 app.use(express.json());
 app.use(express.static('public'));
-
 
 app.post('/api/stores', (req, res) => {
   console.log('New store:', req.body);
@@ -37,6 +35,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://classwork.engr.oregonstate.edu:${PORT}`);
 });
