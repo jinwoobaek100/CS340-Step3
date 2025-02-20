@@ -1,0 +1,37 @@
+[
+    {
+        "customerID": 1,
+        "phoneCountryCode":"+1", 
+        "phoneAreaCode": "503", 
+        "phoneNumber": "555-0123"
+    },
+
+    {
+       "customerID": 2,
+        "phoneCountryCode":"+1", 
+        "phoneAreaCode": "206", 
+        "phoneNumber": "555-0456"
+    },
+
+
+    {
+        "customerID": 3,
+        "phoneCountryCode":"+1", 
+        "phoneAreaCode": "415", 
+        "phoneNumber": "555-0678"
+    },
+
+    {
+        "customerID": 4,
+        "phoneCountryCode":"+1", 
+        "phoneAreaCode": "213", 
+        "phoneNumber": "555-0990"
+    },
+    
+    {
+       "customerID": 5,
+        "phoneCountryCode":"+1", 
+        "phoneAreaCode": "310", 
+        "phoneNumber": "555-1122"
+    }
+]

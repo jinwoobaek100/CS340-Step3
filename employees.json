@@ -1,0 +1,50 @@
+[
+    {
+        "storeID": 1,
+        "firstName":"Takeshi", 
+        "lastName": "Yamada", 
+        "positionID": 1,
+        "hireDate": "2023-01-15"
+    },
+
+    {
+        "storeID": 1,
+        "firstName":"Aiko", 
+        "lastName": "Sato", 
+        "positionID": 3,
+        "hireDate": "2023-02-01"
+    },
+
+
+    {
+       "storeID": 3,
+        "firstName":"Kenji", 
+        "lastName": "Tanaka", 
+        "positionID": 1,
+        "hireDate": "2024-03-01"
+    },
+
+    {
+       "storeID": 3,
+        "firstName":"Mariko", 
+        "lastName": "Kobayashi", 
+        "positionID": 2,
+        "hireDate": "2024-03-15"
+    },
+    {
+       "storeID": 4,
+        "firstName":"Emily", 
+        "lastName": "Rodriguez", 
+        "positionID": 1,
+        "hireDate": "2024-04-01"
+    },
+
+    {
+        "storeID": 2,
+        "firstName":"David", 
+        "lastName": "Kim", 
+        "positionID": 3,
+        "hireDate": "2024-02-01"
+        
+    }
+]

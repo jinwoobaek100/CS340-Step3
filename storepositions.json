@@ -1,0 +1,51 @@
+[
+    {
+        "storeID": 1,
+        "positionID": 1
+    },
+
+    {
+        "storeID": 1,
+        "positionID": 2
+    },
+
+
+    {
+       "storeID": 1,
+        "positionID": 3
+    },
+
+    {
+        "storeID": 2,
+        "positionID": 1
+    },
+    {
+        "storeID": 3,
+        "positionID": 1
+    },
+
+    {
+       "storeID": 3,
+        "positionID": 2
+    },
+
+    {
+        "storeID": 3,
+        "positionID": 3
+    },
+
+    {
+        "storeID": 4,
+        "positionID": 1
+    },
+
+    {
+        "storeID": 4,
+        "positionID": 2
+    },
+
+    {
+        "storeID": 4,
+        "positionID": 3
+    }
+]
