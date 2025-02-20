@@ -1,8 +1,13 @@
 // public/js/client.js
 document.addEventListener('DOMContentLoaded', () => {
     setupFormHandlers();
+    // COPY
     if (document.getElementById('stores-table')) {
         fetchStores();
+    }
+    // END COPY
+    if (document.getElementById('customers-table')) {
+        // fetchCustomers();
     }
 });
 
@@ -51,7 +56,7 @@ function handleFormSubmit(url, entityName) {
         }
     };
 }
-
+// COPY 
 async function fetchStores() {
   try {
     const response = await fetch('/api/stores');
@@ -96,7 +101,52 @@ function populateStoreTable(stores) {
         `;
     });
 }
-
+// END COPY
+async function fetchCustomers() {
+    try {
+      const response = await fetch('/api/customers');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Oops! We haven't received JSON!");
+      }
+      const customers = await response.json();
+      populateCustomersTable(customers);
+      populateStateFilter(customers);
+    } catch (error) {
+      console.error('Fetch Error:', error);
+      alert(`Failed to load customers: ${error.message}`);
+    }
+  }
+  
+  function populateCustomersTable(customers) {
+      const tableBody = document.querySelector('#customers-table tbody');
+      tableBody.innerHTML = '';
+  
+      if(stores.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="7">No stores found</td></tr>';
+          return;
+      }
+  
+      stores.forEach(store => {
+          const row = tableBody.insertRow();
+          row.innerHTML = `
+              <td>${store.storeID}</td>
+              <td>${store.streetAddress}</td>
+              <td>${store.city}</td>
+              <td>${store.state}</td>
+              <td>${store.zipCode}</td>
+              <td>${store.phoneNumber}</td>
+              <td>
+                  <button onclick="editStore(${store.storeID})">Edit</button>
+                  <button onclick="deleteStore(${store.storeID})">Delete</button>
+              </td>
+          `;
+      });
+  }
+  // END CUSTOMERS COPY
 function populateStateFilter(stores) {
     const stateFilter = document.getElementById('state-filter');
     if (!stateFilter) return;

@@ -69,7 +69,15 @@ app.post('/api/stores', (req, res) => {
   fs.writeFileSync(path.join(__dirname, 'stores.json'), JSON.stringify(stores, null, 2));
   res.status(201).json(newStore);
 });
-
+// START CUSTOMERS COPY
+app.get('/api/customers', (req, res, next) => {
+  try {
+    const customers = readJSONFile('customers.json');
+    res.json(customers);
+  } catch (error) {
+    next(error);
+  }
+}); // END CUSTOMERS COPY
 app.post('/api/customers', (req, res) => {
   console.log('New customer:', req.body);
   res.status(201).json(req.body);

@@ -1,0 +1,65 @@
+[
+    {
+        "itemName":"Tonkotsu Ramen",
+        "description":"Rich pork bone broth", 
+        "price": 12.99, 
+        "category": "Ramen"
+    },
+
+    {
+        "itemName":"Gyoza",
+        "description":"Pan-fried dumplings", 
+        "price": 6.99, 
+        "category": "Side"
+    },
+
+
+    {
+        "itemName":"Tonkotsu Ramen",
+        "description":"Rich pork bone broth", 
+        "price": 12.99, 
+        "category": "Ramen"
+    },
+
+    {
+        "itemName":"Tonkotsu Ramen",
+        "description":"Rich pork bone broth", 
+        "price": 12.99, 
+        "category": "Ramen"
+    },
+    {
+        "itemName":"Tonkotsu Ramen",
+        "description":"Rich pork bone broth", 
+        "price": 12.99, 
+        "category": "Ramen"
+    },
+
+    {
+        "itemName":"Tonkotsu Ramen",
+        "description":"Rich pork bone broth", 
+        "price": 12.99, 
+        "category": "Ramen"
+    },
+
+    {
+        "itemName":"Tonkotsu Ramen",
+        "description":"Rich pork bone broth", 
+        "price": 12.99, 
+        "category": "Ramen"
+    },
+
+    {
+        "itemName":"Tonkotsu Ramen",
+        "description":"Rich pork bone broth", 
+        "price": 12.99, 
+        "category": "Ramen"
+    },
+
+    {
+        "itemName":"Tonkotsu Ramen",
+        "description":"Rich pork bone broth", 
+        "price": 12.99, 
+        "category": "Ramen"
+    }
+
+]
