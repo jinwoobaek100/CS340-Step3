@@ -5,35 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Orders</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="js/client.js" defer></script>
 </head>
 <body>
     <header>
-        <h1> Manage Orders</h1>
-        <a href="index.html" class = "returnButton"> Back to Index</a>
+        <h1>Manage Orders</h1>
+        <a href="index.html" class="returnButton">Back to Index</a>
     </header>
     <main>
         <section id="add-order">
-            <h2>Create New Order</h2>
+            <h2>Add New Order</h2>
             <form id="order-form">
-                <label for="ostoreID">Store ID:</label><br/>
-                <input type="number" id="ostoreID" name="storeID" required><br/>
-                <label for="customerID">Customer ID:</label><br/>
-                <input type="number" id="customerID" name="customerID" required><br/>
-                <label for="orderDate">Order Date:</label><br/>
-                <input type="datetime-local" id="orderDate" name="orderDate" required><br/>
-                <label for="totalAmount">Total Amount:</label><br/>
-                <input type="number" id="totalAmount" name="totalAmount" step="0.01" required><br/>
-                <label for="orderStatus">Status:</label><br/>
+                <label for="storeID">Store:</label>
+                <select id="storeID" name="storeID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="customerID">Customer:</label>
+                <select id="customerID" name="customerID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="orderDate">Order Date:</label>
+                <input type="datetime-local" id="orderDate" name="orderDate" required>
+
+                <label for="totalAmount">Total Amount:</label>
+                <input type="number" id="totalAmount" name="totalAmount" step="0.01" required placeholder="Enter total amount">
+
+                <label for="orderStatus">Order Status:</label>
                 <select id="orderStatus" name="orderStatus" required>
+                    <option value="">Select status</option>
                     <option value="Preparing">Preparing</option>
                     <option value="Completed">Completed</option>
                     <option value="Cancelled">Cancelled</option>
-                </select><br/>
-                <button type="submit">Create Order</button>
+                </select>
+
+                <button type="submit">Add Order</button>
             </form>
         </section>
-        
-
+        <section id="order-list">
+            <h2>Order List</h2>
+            <div class="search-filter">
+                <input type="text" id="order-search" placeholder="Search orders...">
+                <select id="status-filter">
+                    <option value="">All Statuses</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+            <table id="orders-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Store</th>
+                        <th>Customer</th>
+                        <th>Order Date</th>
+                        <th>Total Amount</th>
+                        <th>Order Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Order data will be dynamically populated here -->
+                </tbody>
+            </table>
+        </section>
     </main>
+
+    <!-- Modal for updating order -->
+    <div id="update-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Update Order</h2>
+            <form id="update-order-form">
+                <input type="hidden" id="update-order-id">
+                <label for="update-storeID">Store:</label>
+                <select id="update-storeID" name="storeID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="update-customerID">Customer:</label>
+                <select id="update-customerID" name="customerID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="update-orderDate">Order Date:</label>
+                <input type="datetime-local" id="update-orderDate" name="orderDate" required>
+
+                <label for="update-totalAmount">Total Amount:</label>
+                <input type="number" id="update-totalAmount" name="totalAmount" step="0.01" required>
+
+                <label for="update-orderStatus">Order Status:</label>
+                <select id="update-orderStatus" name="orderStatus" required>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+
+                <button type="submit">Update Order</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

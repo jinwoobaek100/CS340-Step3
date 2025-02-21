@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Phones</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/client.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Manage Phones</h1>
+        <a href="index.html" class="returnButton">Back to Index</a>
+    </header>
+    <main>
+        <section id="add-phone">
+            <h2>Add New Phone</h2>
+            <form id="phone-form">
+                <label for="customerID">Customer:</label>
+                <select id="customerID" name="customerID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="phoneCountryCode">Country Code:</label>
+                <input type="text" id="phoneCountryCode" name="phoneCountryCode" placeholder="Enter country code">
+
+                <label for="phoneAreaCode">Area Code:</label>
+                <input type="text" id="phoneAreaCode" name="phoneAreaCode" placeholder="Enter area code">
+
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" required placeholder="Enter phone number">
+
+                <button type="submit">Add Phone</button>
+            </form>
+        </section>
+        <section id="phone-list">
+            <h2>Phone List</h2>
+            <div class="search-filter">
+                <input type="text" id="phone-search" placeholder="Search phones...">
+            </div>
+            <table id="phones-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Country Code</th>
+                        <th>Area Code</th>
+                        <th>Phone Number</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Phone data will be dynamically populated here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Modal for updating phone -->
+    <div id="update-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Update Phone</h2>
+            <form id="update-phone-form">
+                <input type="hidden" id="update-phone-id">
+                <label for="update-customerID">Customer:</label>
+                <select id="update-customerID" name="customerID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="update-phoneCountryCode">Country Code:</label>
+                <input type="text" id="update-phoneCountryCode" name="phoneCountryCode">
+
+                <label for="update-phoneAreaCode">Area Code:</label>
+                <input type="text" id="update-phoneAreaCode" name="phoneAreaCode">
+
+                <label for="update-phoneNumber">Phone Number:</label>
+                <input type="text" id="update-phoneNumber" name="phoneNumber" required>
+
+                <button type="submit">Update Phone</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

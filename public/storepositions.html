@@ -3,92 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Employees</title>
+    <title>Manage Store Positions</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/client.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>Manage Employees</h1>
+        <h1>Manage Store Positions</h1>
         <a href="index.html" class="returnButton">Back to Index</a>
     </header>
     <main>
-        <section id="add-employee">
-            <h2>Add New Employee</h2>
-            <form id="employee-form">
+        <section id="add-storeposition">
+            <h2>Add New Store Position</h2>
+            <form id="storeposition-form">
                 <label for="storeID">Store:</label>
                 <select id="storeID" name="storeID" required>
                     <!-- Options will be dynamically populated -->
                 </select>
-
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" required placeholder="Enter first name">
-
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" required placeholder="Enter last name">
 
                 <label for="positionID">Position:</label>
                 <select id="positionID" name="positionID" required>
                     <!-- Options will be dynamically populated -->
                 </select>
 
-                <label for="hireDate">Hire Date:</label>
-                <input type="date" id="hireDate" name="hireDate" required>
-
-                <button type="submit">Add Employee</button>
+                <button type="submit">Add Store Position</button>
             </form>
         </section>
-        <section id="employee-list">
-            <h2>Employee List</h2>
+        <section id="storeposition-list">
+            <h2>Store Position List</h2>
             <div class="search-filter">
-                <input type="text" id="employee-search" placeholder="Search employees...">
+                <input type="text" id="storeposition-search" placeholder="Search store positions...">
             </div>
-            <table id="employees-table">
+            <table id="storepositions-table">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Store</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
                         <th>Position</th>
-                        <th>Hire Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Employee data will be dynamically populated here -->
+                    <!-- Store position data will be dynamically populated here -->
                 </tbody>
             </table>
         </section>
     </main>
 
-    <!-- Modal for updating employee -->
+    <!-- Modal for updating store position -->
     <div id="update-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Update Employee</h2>
-            <form id="update-employee-form">
-                <input type="hidden" id="update-employee-id">
+            <h2>Update Store Position</h2>
+            <form id="update-storeposition-form">
+                <input type="hidden" id="update-storeposition-id">
                 <label for="update-storeID">Store:</label>
                 <select id="update-storeID" name="storeID" required>
                     <!-- Options will be dynamically populated -->
                 </select>
-
-                <label for="update-firstName">First Name:</label>
-                <input type="text" id="update-firstName" name="firstName" required>
-
-                <label for="update-lastName">Last Name:</label>
-                <input type="text" id="update-lastName" name="lastName" required>
 
                 <label for="update-positionID">Position:</label>
                 <select id="update-positionID" name="positionID" required>
                     <!-- Options will be dynamically populated -->
                 </select>
 
-                <label for="update-hireDate">Hire Date:</label>
-                <input type="date" id="update-hireDate" name="hireDate" required>
-
-                <button type="submit">Update Employee</button>
+                <button type="submit">Update Store Position</button>
             </form>
         </div>
     </div>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Order Items</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/client.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Manage Order Items</h1>
+        <a href="index.html" class="returnButton">Back to Index</a>
+    </header>
+    <main>
+        <section id="add-orderitem">
+            <h2>Add New Order Item</h2>
+            <form id="orderitem-form">
+                <label for="orderID">Order:</label>
+                <select id="orderID" name="orderID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="menuID">Menu Item:</label>
+                <select id="menuID" name="menuID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required placeholder="Enter quantity">
+
+                <label for="itemPrice">Item Price:</label>
+                <input type="number" id="itemPrice" name="itemPrice" step="0.01" required placeholder="Enter item price">
+
+                <button type="submit">Add Order Item</button>
+            </form>
+        </section>
+        <section id="orderitem-list">
+            <h2>Order Item List</h2>
+            <div class="search-filter">
+                <input type="text" id="orderitem-search" placeholder="Search order items...">
+            </div>
+            <table id="orderitems-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Order</th>
+                        <th>Menu Item</th>
+                        <th>Quantity</th>
+                        <th>Item Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Order item data will be dynamically populated here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Modal for updating order item -->
+    <div id="update-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Update Order Item</h2>
+            <form id="update-orderitem-form">
+                <input type="hidden" id="update-orderitem-id">
+                <label for="update-orderID">Order:</label>
+                <select id="update-orderID" name="orderID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="update-menuID">Menu Item:</label>
+                <select id="update-menuID" name="menuID" required>
+                    <!-- Options will be dynamically populated -->
+                </select>
+
+                <label for="update-quantity">Quantity:</label>
+                <input type="number" id="update-quantity" name="quantity" required>
+
+                <label for="update-itemPrice">Item Price:</label>
+                <input type="number" id="update-itemPrice" name="itemPrice" step="0.01" required>
+
+                <button type="submit">Update Order Item</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

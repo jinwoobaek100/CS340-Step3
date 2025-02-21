@@ -1,23 +1,20 @@
-// public/js/client.js
 document.addEventListener('DOMContentLoaded', () => {
     setupFormHandlers();
-    // COPY
-    if (document.getElementById('stores-table')) {
-        fetchStores();
-    }
-    // END COPY
-    if (document.getElementById('customers-table')) {
-        // fetchCustomers();
-    }
+    setupTableHandlers();
+    populateDropdowns();
 });
 
 function setupFormHandlers() {
     const forms = {
         'store-form': '/api/stores',
         'customer-form': '/api/customers',
-        'employee-form': '/api/employees',
         'menuitem-form': '/api/menuitems',
-        'order-form': '/api/orders'
+        'order-form': '/api/orders',
+        'phone-form': '/api/phones',
+        'orderitem-form': '/api/orderitems',
+        'position-form': '/api/positions',
+        'employee-form': '/api/employees',
+        'storeposition-form': '/api/storepositions'
     };
 
     Object.entries(forms).forEach(([formId, url]) => {
@@ -25,6 +22,47 @@ function setupFormHandlers() {
         if (form) {
             form.addEventListener('submit', handleFormSubmit(url, formId.split('-')[0]));
         }
+    });
+}
+
+function setupTableHandlers() {
+    const tables = [
+        'stores', 'customers', 'menuitems', 'orders', 'phones',
+        'orderitems', 'positions', 'employees', 'storepositions'
+    ];
+
+    tables.forEach(table => {
+        if (document.getElementById(`${table}-table`)) {
+            fetchEntities(table);
+        }
+    });
+}
+
+async function populateDropdowns() {
+    const dropdowns = {
+        'storeID': { entity: 'stores', valueField: 'storeID', displayField: 'city' },
+        'customerID': { entity: 'customers', valueField: 'customerID', displayField: 'lastName' },
+        'menuID': { entity: 'menuitems', valueField: 'menuID', displayField: 'itemName' },
+        'orderID': { entity: 'orders', valueField: 'orderID', displayField: 'orderID' },
+        'positionID': { entity: 'positions', valueField: 'positionID', displayField: 'positionName' }
+    };
+
+    for (const [selectId, config] of Object.entries(dropdowns)) {
+        const select = document.getElementById(selectId);
+        if (select) {
+            const entities = await fetchEntities(config.entity);
+            populateDropdown(select, entities, config.valueField, config.displayField);
+        }
+    }
+}
+
+function populateDropdown(select, data, valueField, displayField) {
+    select.innerHTML = '<option value="">Select an option</option>';
+    data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item[valueField];
+        option.textContent = `${item[valueField]} - ${item[displayField]}`;
+        select.appendChild(option);
     });
 }
 
@@ -47,106 +85,90 @@ function handleFormSubmit(url, entityName) {
 
             alert(`${entityName} added successfully!`);
             e.target.reset();
-            if (entityName === 'store') {
-                fetchStores();
-            }
+            fetchEntities(entityName + 's');
         } catch (error) {
             console.error('Submission Error:', error);
             alert(`Failed to add ${entityName}: ${error.message}`);
         }
     };
 }
-// COPY 
-async function fetchStores() {
-  try {
-    const response = await fetch('/api/stores');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+
+async function fetchEntities(entityName) {
+    try {
+        const response = await fetch(`/api/${entityName}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error("Oops! We haven't received JSON!");
+        }
+        const entities = await response.json();
+        if (document.getElementById(`${entityName}-table`)) {
+            populateTable(entityName, entities);
+        }
+        if (entityName === 'stores') {
+            populateStateFilter(entities);
+        }
+        return entities;
+    } catch (error) {
+        console.error('Fetch Error:', error);
+        alert(`Failed to load ${entityName}: ${error.message}`);
+        return [];
     }
-    const contentType = response.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      throw new Error("Oops! We haven't received JSON!");
-    }
-    const stores = await response.json();
-    populateStoreTable(stores);
-    populateStateFilter(stores);
-  } catch (error) {
-    console.error('Fetch Error:', error);
-    alert(`Failed to load stores: ${error.message}`);
-  }
 }
 
-function populateStoreTable(stores) {
-    const tableBody = document.querySelector('#stores-table tbody');
+async function populateTable(entityName, entities) {
+    const tableBody = document.querySelector(`#${entityName}-table tbody`);
+    if (!tableBody) return;
+
     tableBody.innerHTML = '';
 
-    if(stores.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="7">No stores found</td></tr>';
+    if(entities.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="7">No ${entityName} found</td></tr>`;
         return;
     }
 
-    stores.forEach(store => {
+    for (const entity of entities) {
         const row = tableBody.insertRow();
-        row.innerHTML = `
-            <td>${store.storeID}</td>
-            <td>${store.streetAddress}</td>
-            <td>${store.city}</td>
-            <td>${store.state}</td>
-            <td>${store.zipCode}</td>
-            <td>${store.phoneNumber}</td>
-            <td>
-                <button onclick="editStore(${store.storeID})">Edit</button>
-                <button onclick="deleteStore(${store.storeID})">Delete</button>
-            </td>
+        let order, menuItem; // Declare variables to hold fetched entities
+
+        // Fetch related entities if this is the orderitems table
+        if (entityName === 'orderitems') {
+            order = await fetchRelatedEntity('order', entity.orderID, 'orders');
+            menuItem = await fetchRelatedEntity('menuitem', entity.menuID, 'menuitems');
+        }
+
+        for (const key in entity) {
+            const cell = row.insertCell();
+            if (key === 'orderID' && order) {
+                cell.textContent = `${entity.orderID} - Order ${order.id}`; // Display order info
+            } else if (key === 'menuID' && menuItem) {
+                cell.textContent = `${entity.menuID} - ${menuItem.itemName}`; // Display menu item name
+            } else {
+                cell.textContent = entity[key];
+            }
+        }
+        const actionsCell = row.insertCell();
+        actionsCell.innerHTML = `
+            <button onclick="editEntity('${entityName}', ${entity[`${entityName.slice(0, -1)}ID`]})">Update</button>
+            <button onclick="deleteEntity('${entityName}', ${entity[`${entityName.slice(0, -1)}ID`]})">Delete</button>
         `;
-    });
-}
-// END COPY
-async function fetchCustomers() {
-    try {
-      const response = await fetch('/api/customers');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Oops! We haven't received JSON!");
-      }
-      const customers = await response.json();
-      populateCustomersTable(customers);
-      populateStateFilter(customers);
-    } catch (error) {
-      console.error('Fetch Error:', error);
-      alert(`Failed to load customers: ${error.message}`);
     }
-  }
-  
-  function populateCustomersTable(customers) {
-      const tableBody = document.querySelector('#customers-table tbody');
-      tableBody.innerHTML = '';
-  
-      if(stores.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="7">No stores found</td></tr>';
-          return;
-      }
-  
-      stores.forEach(store => {
-          const row = tableBody.insertRow();
-          row.innerHTML = `
-              <td>${store.storeID}</td>
-              <td>${store.streetAddress}</td>
-              <td>${store.city}</td>
-              <td>${store.state}</td>
-              <td>${store.zipCode}</td>
-              <td>${store.phoneNumber}</td>
-              <td>
-                  <button onclick="editStore(${store.storeID})">Edit</button>
-                  <button onclick="deleteStore(${store.storeID})">Delete</button>
-              </td>
-          `;
-      });
-  }
-  // END CUSTOMERS COPY
+}
+
+async function fetchRelatedEntity(prefix, id, entityName) {
+    try {
+        const response = await fetch(`/api/${entityName}/${id}`);
+        if (!response.ok) return null;
+        const entity = await response.json();
+        return entity;
+    } catch (error) {
+        console.error(`Error fetching related ${entityName}:`, error);
+        return null;
+    }
+}
+
 function populateStateFilter(stores) {
     const stateFilter = document.getElementById('state-filter');
     if (!stateFilter) return;
@@ -162,42 +184,45 @@ function populateStateFilter(stores) {
         const filteredStores = selectedState 
             ? stores.filter(store => store.state === selectedState)
             : stores;
-        populateStoreTable(filteredStores);
+        populateTable('stores', filteredStores);
     });
 }
 
-async function editStore(storeId) {
+async function editEntity(entityName, entityId) {
     try {
-        const response = await fetch(`/api/stores/${storeId}`);
+        const response = await fetch(`/api/${entityName}/${entityId}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const store = await response.json();
+        const entity = await response.json();
         
-        // 모달 열기 및 데이터 채우기
         const modal = document.getElementById('update-modal');
-        const form = document.getElementById('update-store-form');
+        const form = document.getElementById(`update-${entityName.slice(0, -1)}-form`);
         
-        Object.keys(store).forEach(key => {
-            const input = form.elements[key] || form.elements[`update-${key}`];
-            if (input) input.value = store[key];
-        });
+        for (const key in entity) {
+            const input = form.elements[`update-${key}`] || form.elements[key];
+            if (input) {
+                if (input.tagName === 'SELECT') {
+                    // This is a dropdown, we need to populate it
+                    await populateDropdowns();
+                }
+                input.value = entity[key];
+            }
+        }
         
         modal.style.display = 'block';
 
-        // 모달 닫기 버튼 이벤트
         const closeBtn = modal.querySelector('.close');
         closeBtn.onclick = () => modal.style.display = 'none';
 
-        // 폼 제출 이벤트
         form.onsubmit = async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
             try {
-                const updateResponse = await fetch(`/api/stores/${storeId}`, {
+                const updateResponse = await fetch(`/api/${entityName}/${entityId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
@@ -207,24 +232,24 @@ async function editStore(storeId) {
                     throw new Error(`HTTP error! status: ${updateResponse.status}`);
                 }
 
-                alert('Store updated successfully!');
+                alert(`${entityName.slice(0, -1)} updated successfully!`);
                 modal.style.display = 'none';
-                fetchStores();
+                fetchEntities(entityName);
             } catch (error) {
                 console.error('Update Error:', error);
-                alert(`Failed to update store: ${error.message}`);
+                alert(`Failed to update ${entityName.slice(0, -1)}: ${error.message}`);
             }
         };
     } catch (error) {
         console.error('Edit Error:', error);
-        alert(`Failed to load store data: ${error.message}`);
+        alert(`Failed to load ${entityName.slice(0, -1)} data: ${error.message}`);
     }
 }
 
-async function deleteStore(storeId) {
-    if (confirm('Are you sure you want to delete this store?')) {
+async function deleteEntity(entityName, entityId) {
+    if (confirm(`Are you sure you want to delete this ${entityName.slice(0, -1)}?`)) {
         try {
-            const response = await fetch(`/api/stores/${storeId}`, {
+            const response = await fetch(`/api/${entityName}/${entityId}`, {
                 method: 'DELETE'
             });
 
@@ -232,11 +257,11 @@ async function deleteStore(storeId) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            alert('Store deleted successfully!');
-            fetchStores();
+            alert(`${entityName.slice(0, -1)} deleted successfully!`);
+            fetchEntities(entityName);
         } catch (error) {
             console.error('Delete Error:', error);
-            alert(`Failed to delete store: ${error.message}`);
+            alert(`Failed to delete ${entityName.slice(0, -1)}: ${error.message}`);
         }
     }
 }

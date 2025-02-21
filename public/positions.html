@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Positions</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/client.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Manage Positions</h1>
+        <a href="index.html" class="returnButton">Back to Index</a>
+    </header>
+    <main>
+        <section id="add-position">
+            <h2>Add New Position</h2>
+            <form id="position-form">
+                <label for="positionName">Position Name:</label>
+                <input type="text" id="positionName" name="positionName" required placeholder="Enter position name">
+
+                <button type="submit">Add Position</button>
+            </form>
+        </section>
+        <section id="position-list">
+            <h2>Position List</h2>
+            <div class="search-filter">
+                <input type="text" id="position-search" placeholder="Search positions...">
+            </div>
+            <table id="positions-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Position Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Position data will be dynamically populated here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Modal for updating position -->
+    <div id="update-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Update Position</h2>
+            <form id="update-position-form">
+                <input type="hidden" id="update-position-id">
+                <label for="update-positionName">Position Name:</label>
+                <input type="text" id="update-positionName" name="positionName" required>
+
+                <button type="submit">Update Position</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

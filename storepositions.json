@@ -1,51 +1,13 @@
 [
-    {
-        "storeID": 1,
-        "positionID": 1
-    },
-
-    {
-        "storeID": 1,
-        "positionID": 2
-    },
-
-
-    {
-       "storeID": 1,
-        "positionID": 3
-    },
-
-    {
-        "storeID": 2,
-        "positionID": 1
-    },
-    {
-        "storeID": 3,
-        "positionID": 1
-    },
-
-    {
-       "storeID": 3,
-        "positionID": 2
-    },
-
-    {
-        "storeID": 3,
-        "positionID": 3
-    },
-
-    {
-        "storeID": 4,
-        "positionID": 1
-    },
-
-    {
-        "storeID": 4,
-        "positionID": 2
-    },
-
-    {
-        "storeID": 4,
-        "positionID": 3
-    }
-]
+    {"storePositionID": 1, "storeID": 1, "positionID": 1},
+    {"storePositionID": 2, "storeID": 1, "positionID": 2},
+    {"storePositionID": 3, "storeID": 1, "positionID": 3},
+    {"storePositionID": 4, "storeID": 2, "positionID": 1},
+    {"storePositionID": 5, "storeID": 3, "positionID": 1},
+    {"storePositionID": 6, "storeID": 3, "positionID": 2},
+    {"storePositionID": 7, "storeID": 3, "positionID": 3},
+    {"storePositionID": 8, "storeID": 4, "positionID": 1},
+    {"storePositionID": 9, "storeID": 4, "positionID": 2},
+    {"storePositionID": 10, "storeID": 4, "positionID": 3}
+  ]
+  

@@ -1,0 +1,12 @@
+[
+    {"menuID": 1, "itemName": "Tonkotsu Ramen", "description": "Rich pork bone broth", "price": 12.99, "category": "Ramen"},
+    {"menuID": 2, "itemName": "Gyoza", "description": "Pan-fried dumplings", "price": 6.99, "category": "Side"},
+    {"menuID": 3, "itemName": "Matcha Latte", "description": "Green tea latte", "price": 4.50, "category": "Beverage"},
+    {"menuID": 4, "itemName": "Shoyu Ramen", "description": "Soy sauce base broth", "price": 13.99, "category": "Ramen"},
+    {"menuID": 5, "itemName": "Vegetarian Ramen", "description": "Seasonal vegetable broth", "price": 14.50, "category": "Ramen"},
+    {"menuID": 6, "itemName": "Karaage Chicken", "description": "Japanese fried chicken", "price": 8.99, "category": "Side"},
+    {"menuID": 7, "itemName": "Edamame", "description": "Steamed soybeans", "price": 4.99, "category": "Side"},
+    {"menuID": 8, "itemName": "Sapporo Beer", "description": "Imported Japanese beer", "price": 5.99, "category": "Beverage"},
+    {"menuID": 9, "itemName": "Calpico Soda", "description": "Refreshing yogurt drink", "price": 3.99, "category": "Beverage"}
+  ]
+  

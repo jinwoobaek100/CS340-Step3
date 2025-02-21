@@ -5,32 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Menu Items</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="js/client.js" defer></script>
 </head>
 <body>
     <header>
-        <h1> Manage Menu Items</h1>
-        <a href="index.html" class = "returnButton"> Back to Index</a>
+        <h1>Manage Menu Items</h1>
+        <a href="index.html" class="returnButton">Back to Index</a>
     </header>
     <main>
         <section id="add-menuitem">
-            <h2>Add Menu Item</h2>
+            <h2>Add New Menu Item</h2>
             <form id="menuitem-form">
-                <label for="itemName">Item Name:</label><br/>
-                <input type="text" id="itemName" name="itemName" required><br/>
-                <label for="description">Description:</label><br/>
-                <textarea id="description" name="description"></textarea><br/>
-                <label for="price">Price:</label><br/>
-                <input type="number" id="price" name="price" step="0.01" required><br/>
-                <label for="category">Category:</label><br/>
+                <label for="itemName">Item Name:</label>
+                <input type="text" id="itemName" name="itemName" required placeholder="Enter item name">
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required placeholder="Enter description"></textarea>
+
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required placeholder="Enter price">
+
+                <label for="category">Category:</label>
                 <select id="category" name="category" required>
+                    <option value="">Select category</option>
                     <option value="Ramen">Ramen</option>
                     <option value="Side">Side</option>
                     <option value="Beverage">Beverage</option>
-                </select><br/>
+                </select>
+
                 <button type="submit">Add Menu Item</button>
             </form>
         </section>
-        
+        <section id="menuitem-list">
+            <h2>Menu Item List</h2>
+            <div class="search-filter">
+                <input type="text" id="menuitem-search" placeholder="Search menu items...">
+                <select id="category-filter">
+                    <option value="">All Categories</option>
+                    <option value="Ramen">Ramen</option>
+                    <option value="Side">Side</option>
+                    <option value="Beverage">Beverage</option>
+                </select>
+            </div>
+            <table id="menuitems-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Menu item data will be dynamically populated here -->
+                </tbody>
+            </table>
+        </section>
     </main>
+
+    <!-- Modal for updating menu item -->
+    <div id="update-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Update Menu Item</h2>
+            <form id="update-menuitem-form">
+                <input type="hidden" id="update-menuitem-id">
+                <label for="update-itemName">Item Name:</label>
+                <input type="text" id="update-itemName" name="itemName" required>
+
+                <label for="update-description">Description:</label>
+                <textarea id="update-description" name="description" required></textarea>
+
+                <label for="update-price">Price:</label>
+                <input type="number" id="update-price" name="price" step="0.01" required>
+
+                <label for="update-category">Category:</label>
+                <select id="update-category" name="category" required>
+                    <option value="Ramen">Ramen</option>
+                    <option value="Side">Side</option>
+                    <option value="Beverage">Beverage</option>
+                </select>
+
+                <button type="submit">Update Menu Item</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
