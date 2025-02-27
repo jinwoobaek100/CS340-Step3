@@ -78,6 +78,7 @@ const setupRoutes = () => {
                 if (!selectQuery) {
                     return res.status(500).json({ error: `SELECT query for ${entityName} not found` });
                 }
+                console.log(selectQuery);
                 const entities = await executeQuery(selectQuery);
                 res.json(entities);
             } catch (error) {
