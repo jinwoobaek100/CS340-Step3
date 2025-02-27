@@ -119,42 +119,54 @@ async function fetchEntities(entityName) {
 }
 
 async function populateTable(entityName, entities) {
-    const tableBody = document.querySelector(`#${entityName}-table tbody`);
-    if (!tableBody) return;
+ const tableBody = document.querySelector(`#${entityName}-table tbody`);
+ if (!tableBody) return;
 
-    tableBody.innerHTML = '';
+ tableBody.innerHTML = '';
 
-    if(entities.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="7">No ${entityName} found</td></tr>`;
-        return;
-    }
+ if(entities.length === 0) {
+     tableBody.innerHTML = `<tr><td colspan="7">No ${entityName} found</td></tr>`;
+     return;
+ }
 
-    for (const entity of entities) {
-        const row = tableBody.insertRow();
-        let order, menuItem; // Declare variables to hold fetched entities
+ for (const entity of entities) {
+     const row = tableBody.insertRow();
+     let order, menuItem; // Declare variables to hold fetched entities
 
-        // Fetch related entities if this is the orderitems table
-        if (entityName === 'orderitems') {
-            order = await fetchRelatedEntity('order', entity.orderID, 'orders');
-            menuItem = await fetchRelatedEntity('menuitem', entity.menuID, 'menuitems');
-        }
+     // Fetch related entities if this is the orderitems table
+     if (entityName === 'orderitems') {
+         try {
+             order = await fetchRelatedEntity('order', entity.orderID, 'orders');
+         } catch (error) {
+             console.error('Error fetching order:', error);
+             order = null; // Set order to null to prevent further errors
+         }
+         try {
+             menuItem = await fetchRelatedEntity('menuitem', entity.menuID, 'menuitems');
+         } catch (error) {
+             console.error('Error fetching menuitem:', error);
+             menuItem = null; // Set menuItem to null to prevent further errors
+         }
+     }
 
-        for (const key in entity) {
-            const cell = row.insertCell();
-            if (key === 'orderID' && order) {
-                cell.textContent = `${entity.orderID} - Order ${order.id}`; // Display order info
-            } else if (key === 'menuID' && menuItem) {
-                cell.textContent = `${entity.menuID} - ${menuItem.itemName}`; // Display menu item name
-            } else {
-                cell.textContent = entity[key];
-            }
-        }
-        const actionsCell = row.insertCell();
-        actionsCell.innerHTML = `
-            <button onclick="editEntity('${entityName}', ${entity[`${entityName.slice(0, -1)}ID`]})">Update</button>
-            <button onclick="deleteEntity('${entityName}', ${entity[`${entityName.slice(0, -1)}ID`]})">Delete</button>
-        `;
-    }
+     for (const key in entity) {
+         const cell = row.insertCell();
+         if (key === 'orderID' && order) {
+             cell.textContent = `${entity.orderID} - Order ${order.orderID}`; // Access the orderID
+         } else if (key === 'menuID' && menuItem) {
+             cell.textContent = `${entity.menuID} - ${menuItem.itemName}`; // Access the itemName
+         } else {
+             cell.textContent = entity[key];
+         }
+     }
+
+     const actionsCell = row.insertCell();
+     const entityIdName = entityName.slice(0, -1) + 'ID'; // Dynamically determine ID field
+     actionsCell.innerHTML = `
+         <button onclick="editEntity('${entityName}', ${entity[entityIdName]} )">Update</button>
+         <button onclick="deleteEntity('${entityName}', ${entity[entityIdName]} )">Delete</button>
+     `;
+ }
 }
 
 async function fetchRelatedEntity(prefix, id, entityName) {
@@ -201,13 +213,14 @@ async function editEntity(entityName, entityId) {
         const form = document.getElementById(`update-${entityName.slice(0, -1)}-form`);
         
         for (const key in entity) {
-            const input = form.elements[`update-${key}`] || form.elements[key];
+            const input = form.elements[key]; // Access elements directly by name
+
             if (input) {
                 if (input.tagName === 'SELECT') {
-                    // This is a dropdown, we need to populate it
-                    await populateDropdowns();
+                    input.value = entity[key];  // Set the selected option
+                } else {
+                    input.value = entity[key];
                 }
-                input.value = entity[key];
             }
         }
         
