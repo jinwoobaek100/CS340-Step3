@@ -110,24 +110,20 @@ const setupRoutes = () => {
                 if (!insertQuery) {
                     return res.status(500).json({ error: `INSERT query for ${entityName} not found` });
                 }
-
+    
                 // Extract the column names from the INSERT query for replacement
                 const columnsMatch = insertQuery.match(/\(([^)]+)\)/);
                 if (!columnsMatch || columnsMatch.length < 2) {
                     return res.status(500).json({ error: "Could not extract columns from INSERT query" });
                 }
                 const columns = columnsMatch[1].split(',').map(col => col.trim());
-
+    
                 // Prepare values array based on the order of columns in the SQL query
                 const values = columns.map(column => data[column.replace(/[$]/g, '')]); // Remove $ from column names
-
-                // Replace placeholders in the SQL query
-                let sql = insertQuery;
-                columns.forEach((column, index) => {
-                    const placeholder = new RegExp(column, 'g');
-                    sql = sql.replace(placeholder, '?');
-                });
-
+    
+                // Construct the SQL query with placeholders
+                let sql = `INSERT INTO ${entityName} (${columns.join(', ')}) VALUES (${columns.map(() => '?').join(', ')})`;
+    
                 const result = await executeQuery(sql, values);
                 const newEntityId = result.insertId;
                 const newEntity = await executeQuery(`SELECT * FROM ${entityName} WHERE ${entityName.slice(0, -1)}ID = ?`, [newEntityId]);
@@ -137,6 +133,7 @@ const setupRoutes = () => {
             }
         });
     };
+    
 
     // Helper function to handle PUT requests
     const handlePut = (app, entityName, idField) => {
@@ -144,21 +141,30 @@ const setupRoutes = () => {
             try {
                 const id = req.params.id;
                 const data = req.body;
+                const updateQuery = findSQLQuery(`-- Query for UPDATE ${entityName}.`);
 
-                // Construct the SET part of the SQL query dynamically
-                const updates = Object.keys(data).map(key => `${key} = ?`).join(', ');
-                const values = [...Object.values(data), id];
+                if (!updateQuery) {
+                    return res.status(500).json({ error: `UPDATE query for ${entityName} not found` });
+                }
 
-                const sql = `UPDATE ${entityName} SET ${updates} WHERE ${idField} = ?`;
+                // Extract column names and values from the request body
+                const columns = Object.keys(data);
+                const values = Object.values(data);
+
+                // Construct the SET clause for the UPDATE query
+                const setClause = columns.map(column => `${column} = ?`).join(', ');
+
+                // Construct the final UPDATE query
+                const sql = `UPDATE ${entityName} SET ${setClause} WHERE ${idField} = ?`;
+
+                // Add the ID to the values array
+                values.push(id);
+
+                // Execute the UPDATE query
                 const result = await executeQuery(sql, values);
 
-                if (result.affectedRows > 0) {
-                    // Fetch the updated entity and respond with it
-                    const updatedEntity = await executeQuery(`SELECT * FROM ${entityName} WHERE ${idField} = ?`, [id]);
-                    res.json(updatedEntity[0]);
-                } else {
-                    res.status(404).json({ message: `${entityName} not found` });
-                }
+                // Send a success message
+                res.json({ message: `${entityName} ${id} updated successfully` });
             } catch (error) {
                 next(error);
             }
@@ -170,56 +176,59 @@ const setupRoutes = () => {
         app.delete(`/api/${entityName}/:id`, async (req, res, next) => {
             try {
                 const id = req.params.id;
+                const deleteQuery = findSQLQuery(`-- Query for DELETE ${entityName}.`);
+
+                if (!deleteQuery) {
+                    return res.status(500).json({ error: `DELETE query for ${entityName} not found` });
+                }
+
                 const sql = `DELETE FROM ${entityName} WHERE ${idField} = ?`;
+
+                // Execute the DELETE query
                 const result = await executeQuery(sql, [id]);
 
-                if (result.affectedRows > 0) {
-                    res.json({ message: `${entityName} deleted successfully` });
-                } else {
-                    res.status(404).json({ message: `${entityName} with ID ${idField} not found` });
-                }
+                // Send a success message
+                res.json({ message: `${entityName} ${id} deleted successfully` });
             } catch (error) {
                 next(error);
             }
         });
     };
-    
+
     // Customers
     handleGet(app, 'Customers', 'customerID');
     handlePost(app, 'Customers');
+    handlePut(app, 'Customers', 'customerID'); // Add PUT handler
+    handleDelete(app, 'Customers', 'customerID'); // Add DELETE handler
 
     // Stores
     handleGet(app, 'Stores', 'storeID');
     handlePost(app, 'Stores');
+    handlePut(app, 'Stores', 'storeID'); // Add PUT handler
+    handleDelete(app, 'Stores', 'storeID'); // Add DELETE handler
 
     // MenuItems
     handleGet(app, 'MenuItems', 'menuID');
     handlePost(app, 'MenuItems');
+    handlePut(app, 'MenuItems', 'menuID'); // Add PUT handler
+    handleDelete(app, 'MenuItems', 'menuID'); // Add DELETE handler
 
     // Orders (Demonstrates nullable relationship and requires a custom UPDATE)
     handleGet(app, 'Orders', 'orderID');
     handlePost(app, 'Orders');
-    app.put('/api/orders/:orderID', async (req, res, next) => {
-        try {
-            const orderID = req.params.orderID;
-            const updateQuery = findSQLQuery("-- Query for UPDATE Orders.");
-            if (!updateQuery) {
-                return res.status(500).json({ error: `UPDATE query for Orders not found` });
-            }
-            await executeQuery(updateQuery, [orderID]);
-            res.json({ message: `Order ${orderID} updated successfully` });
-        } catch (error) {
-            next(error);
-        }
-    });
+    handlePut(app, 'Orders', 'orderID'); // Use generic PUT handler
+    handleDelete(app, 'Orders', 'orderID'); // Add DELETE handler
 
     // Phones
     handleGet(app, 'Phones', 'phoneID');
     handlePost(app, 'Phones');
+    handlePut(app, 'Phones', 'phoneID'); // Add PUT handler
+    handleDelete(app, 'Phones', 'phoneID'); // Add DELETE handler
 
     // OrderItems (Many-to-Many relationship)
     handleGet(app, 'OrderItems', 'orderItemID');
     handlePost(app, 'OrderItems');
+    handlePut(app, 'OrderItems', 'orderItemID'); // Add PUT handler
     handleDelete(app, 'OrderItems', 'orderItemID');
 
     // Positions
@@ -231,12 +240,14 @@ const setupRoutes = () => {
     // Employees
     handleGet(app, 'Employees', 'employeeID');
     handlePost(app, 'Employees');
+    handlePut(app, 'Employees', 'employeeID'); // Add PUT handler
+    handleDelete(app, 'Employees', 'employeeID'); // Add DELETE handler
 
     // StorePositions (Many-to-Many relationship)
     handleGet(app, 'StorePositions', 'storePositionID');
     handlePost(app, 'StorePositions');
+    handlePut(app, 'StorePositions', 'storePositionID'); // Add PUT handler
     handleDelete(app, 'StorePositions', 'storePositionID');
-    handlePut(app, 'StorePositions', 'storePositionID');
 
 };
 

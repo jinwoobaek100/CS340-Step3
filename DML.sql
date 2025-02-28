@@ -81,6 +81,41 @@ INSERT INTO StorePositions (storeID, positionID) VALUES
 INSERT INTO Stores (streetAddress, city, state, zipCode, phoneNumber) VALUES
 ($streetAddress$, $city$, $state$, $zipCode$, $phoneNumber$);
 
+-- Query for UPDATE Customers.
+UPDATE Customers
+SET firstName = $firstName$, lastName = $lastName$, email = $email$, loyaltyPoints = $loyaltyPoints$
+WHERE customerID = $customerID$;
+
+-- Query for UPDATE Employees.
+UPDATE Employees
+SET storeID = $storeID$, firstName = $firstName$, lastName = $lastName$, positionID = $positionID$, hireDate = $hireDate$
+WHERE employeeID = $employeeID$;
+
+-- Query for UPDATE MenuItems.
+UPDATE MenuItems
+SET itemName = $itemName$, description = $description$, price = $price$, category = $category$
+WHERE menuID = $menuID$;
+
+-- Query for UPDATE OrderItems.
+UPDATE OrderItems
+SET orderID = $orderID$, menuID = $menuID$, quantity = $quantity$, itemPrice = $itemPrice$
+WHERE orderItemID = $orderItemID$;
+
+-- Query for UPDATE Orders.
+UPDATE Orders
+SET storeID = $storeID$, customerID = $customerID$, orderDate = $orderDate$, totalAmount = $totalAmount$, orderStatus = $orderStatus$
+WHERE orderID = $orderID$;
+
+-- Query for UPDATE Phones.
+UPDATE Phones
+SET customerID = $customerID$, phoneCountryCode = $phoneCountryCode$, phoneAreaCode = $phoneAreaCode$, phoneNumber = $phoneNumber$
+WHERE phoneID = $phoneID$;
+
+-- Query for UPDATE Positions.
+UPDATE Positions
+SET positionName = $positionName$
+WHERE positionID = $positionID$;
+
 -- Query for UPDATE StorePositions positionID as NULL.
 UPDATE StorePositions
 SET positionID = NULL
@@ -92,13 +127,16 @@ SET positionID = $positionID$
 WHERE storeID = $selected_store$;
 
 
--- Query for UPDATE Positions.
-UPDATE Positions
-SET positionName = $positionName$
-WHERE positionID = $selected_position$;
+-- Query for UPDATE Stores.
+UPDATE Stores
+SET streetAddress = $streetAddress$, city = $city$, state = $state$, zipCode = $zipCode$, phoneNumber = $phoneNumber$
+WHERE storeID = $storeID$;
+
+-- Query for DELETE Stores.
+DELETE FROM Stores WHERE storeID = $storeID$;
 
 -- Query for DELETE StorePositions.
-DELETE FROM StorePositions WHERE storeID = $storeID$ AND positionID = $positionID$ LIMIT 1;
+DELETE FROM StorePositions WHERE storeID = $storeID$ AND positionID = $positionID$;
 
 -- Query for DELETE Positions.
 DELETE FROM Positions WHERE positionID = $positionID$;
