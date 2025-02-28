@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const PORT = 7777;
+const PORT = 9872;
 const mysql = require('mysql');
 
 app.use(express.json());
@@ -294,5 +294,5 @@ app.get('/api/search', async (req, res, next) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on http://classwork.engr.oregonstate.edu:${PORT}`);
+    console.log(`Server running on http://flip.engr.oregonstate.edu:${PORT}`);
 });
