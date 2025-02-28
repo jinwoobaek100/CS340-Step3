@@ -86,6 +86,12 @@ UPDATE StorePositions
 SET positionID = NULL
 WHERE storeID = $selected_store$;
 
+-- Query for UPDATE StorePositions.
+UPDATE StorePositions
+SET positionID = $positionID$
+WHERE storeID = $selected_store$;
+
+
 -- Query for UPDATE Positions.
 UPDATE Positions
 SET positionName = $positionName$

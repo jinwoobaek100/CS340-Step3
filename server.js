@@ -78,7 +78,6 @@ const setupRoutes = () => {
                 if (!selectQuery) {
                     return res.status(500).json({ error: `SELECT query for ${entityName} not found` });
                 }
-                console.log(selectQuery);
                 const entities = await executeQuery(selectQuery);
                 res.json(entities);
             } catch (error) {
@@ -177,7 +176,7 @@ const setupRoutes = () => {
                 if (result.affectedRows > 0) {
                     res.json({ message: `${entityName} deleted successfully` });
                 } else {
-                    res.status(404).json({ message: `${entityName} not found` });
+                    res.status(404).json({ message: `${entityName} with ID ${idField} not found` });
                 }
             } catch (error) {
                 next(error);
@@ -237,6 +236,8 @@ const setupRoutes = () => {
     handleGet(app, 'StorePositions', 'storePositionID');
     handlePost(app, 'StorePositions');
     handleDelete(app, 'StorePositions', 'storePositionID');
+    handlePut(app, 'StorePositions', 'storePositionID');
+
 };
 
 setupRoutes();
