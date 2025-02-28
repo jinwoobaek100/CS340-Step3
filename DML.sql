@@ -36,6 +36,12 @@ JOIN Stores ON Stores.storeID = StorePositions.storeID
 JOIN Positions ON Positions.positionID = StorePositions.positionID
 WHERE StorePositions.storeID = $storeID$;
 
+-- Query for SELECT all StorePositions.
+SELECT storePositionID, Stores.streetAddress, Positions.positionName FROM StorePositions
+JOIN Stores ON Stores.storeID = StorePositions.storeID
+JOIN Positions ON Positions.positionID = StorePositions.positionID;
+
+
 -- Query for SELECT all Stores.
 SELECT * FROM Stores;
 
