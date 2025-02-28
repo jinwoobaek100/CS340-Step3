@@ -2,7 +2,75 @@ document.addEventListener('DOMContentLoaded', () => {
     setupFormHandlers();
     setupTableHandlers();
     populateDropdowns();
+    setupSearch();
 });
+
+function setupSearch() {
+    const searchButton = document.getElementById('search-button');
+    const storeSearchInput = document.getElementById('store-search');
+    
+    searchButton.addEventListener('click', () => performSearch(storeSearchInput.value));
+    storeSearchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performSearch(storeSearchInput.value);
+        }
+    });
+}
+
+async function performSearch(searchTerm) {
+    if (!searchTerm) {
+        alert('Please enter a search term.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/search?term=${encodeURIComponent(searchTerm)}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const results = await response.json();
+        displaySearchResults(results);
+    } catch (error) {
+        console.error('Search Error:', error);
+        alert(`Search failed: ${error.message}`);
+    }
+}
+
+function displaySearchResults(results) {
+  const searchResultsDiv = document.getElementById('search-results');
+  searchResultsDiv.innerHTML = '';
+
+  if (results.length === 0) {
+    searchResultsDiv.textContent = 'No results found.';
+    return;
+  }
+
+  const entities = [...new Set(results.map(r => r.entity))];
+  
+  entities.forEach(entity => {
+    const entityResults = results.filter(r => r.entity === entity);
+    const table = document.createElement('table');
+    table.innerHTML = `<caption>${entity}</caption><thead><tr></tr></thead><tbody></tbody>`;
+
+    const headers = Object.keys(entityResults[0]).filter(k => k !== 'entity');
+    headers.forEach(header => {
+      const th = document.createElement('th');
+      th.textContent = header;
+      table.querySelector('thead tr').appendChild(th);
+    });
+
+    entityResults.forEach(result => {
+      const row = table.querySelector('tbody').insertRow();
+      headers.forEach(header => {
+        const cell = row.insertCell();
+        cell.textContent = result[header];
+      });
+    });
+
+    searchResultsDiv.appendChild(table);
+  });
+}
+
 
 function setupFormHandlers() {
     const forms = {

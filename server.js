@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const PORT = 7878;
+const PORT = 7777;
 const mysql = require('mysql');
 
 app.use(express.json());
@@ -267,6 +267,31 @@ app.use((err, req, res, next) => {
         message: 'Internal Server Error',
         error: err.message
     });
+});
+
+app.get('/api/search', async (req, res, next) => {
+    try {
+        const searchTerm = req.query.term;
+
+        if (!searchTerm) {
+            return res.status(400).json({ error: 'Search term is required' });
+        }
+
+        const searchQuery = findSQLQuery(`-- Query for SEARCH.`);
+
+        if (!searchQuery) {
+            return res.status(500).json({ error: `Search query not found` });
+        }
+
+        const likeTerm = `%${searchTerm}%`; // For wildcard matching with LIKE
+        const params = Array(19).fill(likeTerm); // Create an array of 18 likeTerm values
+
+        const results = await executeQuery(searchQuery, params);
+
+        res.json(results);
+    } catch (error) {
+        next(error);
+    }
 });
 
 app.listen(PORT, '0.0.0.0', () => {

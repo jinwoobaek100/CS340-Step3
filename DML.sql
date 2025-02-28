@@ -134,3 +134,31 @@ DELETE FROM StorePositions WHERE storeID = $storeID$ AND positionID = $positionI
 
 -- Query for DELETE Positions.
 DELETE FROM Positions WHERE positionID = $positionID$;
+
+-- Query for SEARCH.
+SELECT
+    'Customers' AS entity, customerID AS id, firstName, lastName, email FROM Customers WHERE firstName LIKE ? OR lastName LIKE ? OR email LIKE ?
+UNION
+SELECT
+    'Stores' AS entity, storeID AS id, streetAddress, city, state FROM Stores WHERE streetAddress LIKE ? OR city LIKE ? OR state LIKE ?
+UNION
+SELECT
+    'MenuItems' AS entity, menuID AS id, itemName, description, category FROM MenuItems WHERE itemName LIKE ? OR description LIKE ? OR category LIKE ?
+UNION
+SELECT
+    'Employees' AS entity, employeeID AS id, firstName, lastName, hireDate FROM Employees WHERE firstName LIKE ? OR lastName LIKE ?
+UNION
+SELECT
+    'Phones' AS entity, phoneID AS id, phoneCountryCode, phoneAreaCode, phoneNumber FROM Phones WHERE phoneCountryCode LIKE ? OR phoneAreaCode LIKE ? OR phoneNumber LIKE ?
+UNION
+SELECT
+    'Orders' AS entity, orderID AS id, orderDate, totalAmount, orderStatus FROM Orders WHERE orderStatus LIKE ?
+UNION
+SELECT
+    'Positions' AS entity, positionID AS id, positionName, positionName FROM Positions WHERE positionName LIKE ?
+UNION
+SELECT
+    'OrderItems' AS entity, orderItemID AS id, quantity, itemPrice, itemPrice FROM OrderItems WHERE quantity LIKE ? OR itemPrice LIKE ?
+UNION
+SELECT
+    'StorePositions' AS entity, storePositionID AS id, storePositionID, storePositionID, storePositionID FROM StorePositions WHERE storePositionID LIKE ?;
