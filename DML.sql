@@ -121,6 +121,12 @@ UPDATE StorePositions
 SET positionID = NULL
 WHERE storeID = $selected_store$;
 
+-- Query for UPDATE StorePositions.
+UPDATE StorePositions
+SET positionID = $positionID$
+WHERE storeID = $selected_store$;
+
+
 -- Query for UPDATE Stores.
 UPDATE Stores
 SET streetAddress = $streetAddress$, city = $city$, state = $state$, zipCode = $zipCode$, phoneNumber = $phoneNumber$

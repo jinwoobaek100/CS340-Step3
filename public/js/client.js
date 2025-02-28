@@ -200,7 +200,7 @@ async function populateTable(entityName, entities) {
  for (const entity of entities) {
      const row = tableBody.insertRow();
      let order, menuItem; // Declare variables to hold fetched entities
-
+console.log(entity);
      // Fetch related entities if this is the orderitems table
      if (entityName === 'orderitems') {
          try {
@@ -230,6 +230,7 @@ async function populateTable(entityName, entities) {
 
      const actionsCell = row.insertCell();
      const entityIdName = entityName.slice(0, -1) + 'ID'; // Dynamically determine ID field
+     console.log(entityIdName);
      actionsCell.innerHTML = `
          <button onclick="editEntity('${entityName}', ${entity[entityIdName]} )">Update</button>
          <button onclick="deleteEntity('${entityName}', ${entity[entityIdName]} )">Delete</button>
@@ -328,7 +329,7 @@ async function editEntity(entityName, entityId) {
 }
 
 async function deleteEntity(entityName, entityId) {
-    if (confirm(`Are you sure you want to delete this ${entityName.slice(0, -1)}?`)) {
+    if (confirm(`Are you sure you want to delete this ${entityName.slice(0, -1)} ${entityId}?`)) {
         try {
             const response = await fetch(`/api/${entityName}/${entityId}`, {
                 method: 'DELETE'
