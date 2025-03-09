@@ -45,8 +45,25 @@
         </section>
         <section id="order-list">
             <h2>Order List</h2>
+
+            <!-- Filter by Store -->
             <div class="search-filter">
-                <input type="text" id="order-search" placeholder="Search orders...">
+                <select id="store-filter">
+                    <option value="">All Stores</option>
+                    <!-- Store options will be dynamically populated -->
+                </select>
+            </div>
+
+            <!-- Filter by Customer -->
+            <div class="search-filter">
+                <select id="customer-filter">
+                    <option value="">All Customers</option>
+                    <!-- Customer options will be dynamically populated -->
+                </select>
+            </div>
+
+            <!-- Filter by Status -->
+            <div class="search-filter">
                 <select id="status-filter">
                     <option value="">All Statuses</option>
                     <option value="Preparing">Preparing</option>
@@ -54,6 +71,8 @@
                     <option value="Cancelled">Cancelled</option>
                 </select>
             </div>
+
+            <!-- Orders Table -->
             <table id="orders-table">
                 <thead>
                     <tr>
@@ -80,32 +99,37 @@
             <h2>Update Order</h2>
             <form id="update-order-form">
                 <input type="hidden" id="update-order-id">
+                
+                <!-- Update Store -->
                 <label for="update-storeID">Store:</label>
-                <select id="update-storeID" name="storeID" required>
-                    <!-- Options will be dynamically populated -->
-                </select>
+                <select id="update-storeID" name="storeID" required></select>
 
+                <!-- Update Customer -->
                 <label for="update-customerID">Customer:</label>
-                <select id="update-customerID" name="customerID" required>
-                    <!-- Options will be dynamically populated -->
-                </select>
+                <select id="update-customerID" name="customerID" required></select>
 
+                <!-- Update Order Date -->
                 <label for="update-orderDate">Order Date:</label>
                 <input type="datetime-local" id="update-orderDate" name="orderDate" required>
 
+                <!-- Update Total Amount -->
                 <label for="update-totalAmount">Total Amount:</label>
                 <input type="number" id="update-totalAmount" name="totalAmount" step="0.01" required>
 
+                <!-- Update Order Status -->
                 <label for="update-orderStatus">Order Status:</label>
                 <select id="update-orderStatus" name="orderStatus" required>
+                    <!-- Options -->
+                    <option value="">Select status</option>
                     <option value="Preparing">Preparing</option>
                     <option value="Completed">Completed</option>
                     <option value="Cancelled">Cancelled</option>
                 </select>
 
+                <!-- Submit Button -->
                 <button type="submit">Update Order</button>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
+
+            </form> 
+        </div> 
+    </div> 
+</body> 

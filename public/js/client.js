@@ -2,75 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupFormHandlers();
     setupTableHandlers();
     populateDropdowns();
-    setupSearch();
 });
-
-function setupSearch() {
-    const searchButton = document.getElementById('search-button');
-    const storeSearchInput = document.getElementById('store-search');
-    
-    searchButton.addEventListener('click', () => performSearch(storeSearchInput.value));
-    storeSearchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            performSearch(storeSearchInput.value);
-        }
-    });
-}
-
-async function performSearch(searchTerm) {
-    if (!searchTerm) {
-        alert('Please enter a search term.');
-        return;
-    }
-
-    try {
-        const response = await fetch(`/api/search?term=${encodeURIComponent(searchTerm)}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const results = await response.json();
-        displaySearchResults(results);
-    } catch (error) {
-        console.error('Search Error:', error);
-        alert(`Search failed: ${error.message}`);
-    }
-}
-
-function displaySearchResults(results) {
-  const searchResultsDiv = document.getElementById('search-results');
-  searchResultsDiv.innerHTML = '';
-
-  if (results.length === 0) {
-    searchResultsDiv.textContent = 'No results found.';
-    return;
-  }
-
-  const entities = [...new Set(results.map(r => r.entity))];
-  
-  entities.forEach(entity => {
-    const entityResults = results.filter(r => r.entity === entity);
-    const table = document.createElement('table');
-    table.innerHTML = `<caption>${entity}</caption><thead><tr></tr></thead><tbody></tbody>`;
-
-    const headers = Object.keys(entityResults[0]).filter(k => k !== 'entity');
-    headers.forEach(header => {
-      const th = document.createElement('th');
-      th.textContent = header;
-      table.querySelector('thead tr').appendChild(th);
-    });
-
-    entityResults.forEach(result => {
-      const row = table.querySelector('tbody').insertRow();
-      headers.forEach(header => {
-        const cell = row.insertCell();
-        cell.textContent = result[header];
-      });
-    });
-
-    searchResultsDiv.appendChild(table);
-  });
-}
-
 
 function setupFormHandlers() {
     const forms = {
@@ -164,20 +96,38 @@ function handleFormSubmit(url, entityName) {
 async function fetchEntities(entityName) {
     try {
         const response = await fetch(`/api/${entityName}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            throw new Error("Oops! We haven't received JSON!");
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        
         const entities = await response.json();
+        
+        // 테이블 채우기
         if (document.getElementById(`${entityName}-table`)) {
             populateTable(entityName, entities);
         }
+
         if (entityName === 'stores') {
             populateStateFilter(entities);
+        } else if (entityName === 'customers') {
+            populateLoyaltyFilter(entities);
+        } else if (entityName === 'employees') {
+            populatePositionFilter(entities);
+        } else if (entityName === 'menuitems') {
+            populateCategoryFilter(entities);
+        } else if (entityName === 'orderitems') {
+            populateMenuFilter(entities);
+        } else if (entityName === 'orders') {
+            populateStoreFilter(entities);
+            populateCustomerFilter(entities);
+            populateStatusFilter(entities);
+        } else if (entityName === 'phones') {
+            populateAreacodeFilter(entities);
+        } else if (entityName === 'storepositions') {
+            populateStoreFilterForSP(entities);
+            populatePositionFilterForSP(entities);
+        } else if (entityName === 'positions') {
+            populatePositionTypeFilter(entities);
         }
+
         return entities;
     } catch (error) {
         console.error('Fetch Error:', error);
@@ -229,7 +179,12 @@ console.log(entity);
      }
 
      const actionsCell = row.insertCell();
-     const entityIdName = entityName.slice(0, -1) + 'ID'; // Dynamically determine ID field
+     const entityIdNameMap = {
+        orderitems: 'orderItemID',
+        menuitems: 'menuID',
+        storepositions: 'storePositionID'
+    };
+    const entityIdName = entityIdNameMap[entityName] || entityName.slice(0, -1) + 'ID';
      console.log(entityIdName);
      actionsCell.innerHTML = `
          <button onclick="editEntity('${entityName}', ${entity[entityIdName]} )">Update</button>
@@ -269,31 +224,285 @@ function populateStateFilter(stores) {
     });
 }
 
+function populateLoyaltyFilter(customers) {
+    const loyaltyFilter = document.getElementById('loyalty-filter');
+    if (!loyaltyFilter) return;
+
+    loyaltyFilter.addEventListener('change', () => {
+        const selectedFilter = loyaltyFilter.value;
+        let filteredCustomers;
+
+        switch(selectedFilter) {
+            case '<100':
+                filteredCustomers = customers.filter(customer => customer.loyaltyPoints < 100);
+                break;
+            case '<500':
+                filteredCustomers = customers.filter(customer => customer.loyaltyPoints < 500);
+                break;
+            case '<1000':
+                filteredCustomers = customers.filter(customer => customer.loyaltyPoints < 1000);
+                break;
+            case '>=1000':
+                filteredCustomers = customers.filter(customer => customer.loyaltyPoints >= 1000);
+                break;
+            default:
+                filteredCustomers = customers;
+        }
+
+        populateTable('customers', filteredCustomers);
+    });
+}
+
+function populatePositionFilter(employees) {
+    const positionFilter = document.getElementById('position-filter');
+    if (!positionFilter) return;
+
+    // Extract unique positions
+    const positions = [...new Set(employees.map(employee => employee.positionName))];
+    
+    // Populate the filter dropdown
+    positionFilter.innerHTML = '<option value="">All Positions</option>';
+    positions.forEach(position => {
+        positionFilter.innerHTML += `<option value="${position}">${position}</option>`;
+    });
+
+    // Add event listener for filtering
+    positionFilter.addEventListener('change', () => {
+        const selectedPosition = positionFilter.value;
+        const filteredEmployees = selectedPosition 
+            ? employees.filter(employee => employee.positionName === selectedPosition)
+            : employees;
+        populateTable('employees', filteredEmployees);
+    });
+}
+
+function populateCategoryFilter(menuitems) {
+    const categoryFilter = document.getElementById('category-filter');
+    if (!categoryFilter) return;
+
+    // Extract unique categories
+    const categories = [...new Set(menuitems.map(item => item.category))];
+    
+    // Populate the filter dropdown
+    categoryFilter.innerHTML = '<option value="">All Categories</option>';
+    categories.forEach(category => {
+        categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
+    });
+
+    // Add event listener for filtering
+    categoryFilter.addEventListener('change', () => {
+        const selectedCategory = categoryFilter.value;
+        const filteredMenuItems = selectedCategory 
+            ? menuitems.filter(item => item.category === selectedCategory)
+            : menuitems;
+        populateTable('menuitems', filteredMenuItems);
+    });
+}
+
+function populateMenuFilter(orderitems) {
+    const menuFilter = document.getElementById('menu-filter');
+    if (!menuFilter) return;
+
+    // Extract unique menu items
+    const menuItems = [...new Set(orderitems.map(orderItem => orderItem.itemName))];
+
+    // Populate the filter dropdown
+    menuFilter.innerHTML = '<option value="">All Menu Items</option>';
+    menuItems.forEach(item => {
+        menuFilter.innerHTML += `<option value="${item}">${item}</option>`;
+    });
+
+    // Add event listener for filtering
+    menuFilter.addEventListener('change', () => {
+        const selectedMenuItem = menuFilter.value;
+        const filteredOrderItems = selectedMenuItem 
+            ? orderitems.filter(orderItem => orderItem.itemName === selectedMenuItem)
+            : orderitems;
+        populateTable('orderitems', filteredOrderItems);
+    });
+}
+
+function applyOrderFilters(orders) {
+    const selectedStore = document.getElementById('store-filter').value;
+    const selectedCustomer = document.getElementById('customer-filter').value;
+    const selectedStatus = document.getElementById('status-filter').value;
+
+    return orders.filter(order => {
+        const storeMatch = !selectedStore || order.streetAddress === selectedStore;
+        const customerMatch = !selectedCustomer || order.customer_name === selectedCustomer;
+        const statusMatch = !selectedStatus || order.orderStatus === selectedStatus;
+        return storeMatch && customerMatch && statusMatch;
+    });
+}
+
+function populateStoreFilter(orders) {
+    const storeFilter = document.getElementById('store-filter');
+    if (!storeFilter) return;
+
+    const stores = [...new Set(orders.map(order => order.streetAddress))];
+    
+    storeFilter.innerHTML = '<option value="">All Stores</option>';
+    stores.forEach(store => {
+        storeFilter.innerHTML += `<option value="${store}">${store}</option>`;
+    });
+
+    storeFilter.addEventListener('change', () => {
+        const filtered = applyOrderFilters(orders);
+        populateTable('orders', filtered);
+    });
+}
+
+function populateCustomerFilter(orders) {
+    const customerFilter = document.getElementById('customer-filter');
+    if (!customerFilter) return;
+
+    const customers = [...new Set(orders.map(order => order.customer_name))];
+    
+    customerFilter.innerHTML = '<option value="">All Customers</option>';
+    customers.forEach(customer => {
+        customerFilter.innerHTML += `<option value="${customer}">${customer}</option>`;
+    });
+
+    customerFilter.addEventListener('change', () => {
+        const filtered = applyOrderFilters(orders);
+        populateTable('orders', filtered);
+    });
+}
+
+function populateStatusFilter(orders) {
+    const statusFilter = document.getElementById('status-filter');
+    if (!statusFilter) return;
+
+    statusFilter.innerHTML = `
+        <option value="">All Statuses</option>
+        <option value="Preparing">Preparing</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+    `;
+
+    statusFilter.addEventListener('change', () => {
+        const filtered = applyOrderFilters(orders);
+        populateTable('orders', filtered);
+    });
+}
+
+function populateAreacodeFilter(phones) {
+    const areacodeFilter = document.getElementById('areacode-filter');
+    if (!areacodeFilter) return;
+
+    // Extract unique area codes
+    const areaCodes = [...new Set(phones.map(phone => phone.phoneAreaCode))];
+
+    // Populate the filter dropdown
+    areacodeFilter.innerHTML = '<option value="">All Area Codes</option>';
+    areaCodes.forEach(areaCode => {
+        areacodeFilter.innerHTML += `<option value="${areaCode}">${areaCode}</option>`;
+    });
+
+    // Add event listener for filtering
+    areacodeFilter.addEventListener('change', () => {
+        const selectedAreaCode = areacodeFilter.value;
+        const filteredPhones = selectedAreaCode
+            ? phones.filter(phone => phone.phoneAreaCode === selectedAreaCode)
+            : phones;
+        populateTable('phones', filteredPhones);
+    });
+}
+
+function applyStorePositionsFilters(storepositions) {
+    const selectedStore = document.getElementById('store-filter').value;
+    const selectedPosition = document.getElementById('position-filter').value;
+
+    return storepositions.filter(sp => {
+        const storeMatch = !selectedStore || sp.streetAddress === selectedStore;
+        const positionMatch = !selectedPosition || sp.positionName === selectedPosition;
+        return storeMatch && positionMatch;
+    });
+}
+
+function populateStoreFilterForSP(storepositions) {
+    const storeFilter = document.getElementById('store-filter');
+    if (!storeFilter) return;
+
+    const stores = [...new Set(storepositions.map(sp => sp.streetAddress))];
+    
+    storeFilter.innerHTML = '<option value="">All Stores</option>';
+    stores.forEach(store => {
+        storeFilter.innerHTML += `<option value="${store}">${store}</option>`;
+    });
+
+    storeFilter.addEventListener('change', () => {
+        const filtered = applyStorePositionsFilters(storepositions);
+        populateTable('storepositions', filtered);
+    });
+}
+
+function populatePositionFilterForSP(storepositions) {
+    const positionFilter = document.getElementById('position-filter');
+    if (!positionFilter) return;
+
+    const positions = [...new Set(storepositions.map(sp => sp.positionName))];
+    
+    positionFilter.innerHTML = '<option value="">All Positions</option>';
+    positions.forEach(position => {
+        positionFilter.innerHTML += `<option value="${position}">${position}</option>`;
+    });
+
+    positionFilter.addEventListener('change', () => {
+        const filtered = applyStorePositionsFilters(storepositions);
+        populateTable('storepositions', filtered);
+    });
+}
+
+function populatePositionTypeFilter(positions) {
+    const positionTypeFilter = document.getElementById('position-type-filter');
+    if (!positionTypeFilter) return;
+
+    const positionTypes = [...new Set(positions.map(pos => pos.positionName))];
+
+    positionTypeFilter.innerHTML = '<option value="">All Position Types</option>';
+    positionTypes.forEach(position => {
+        positionTypeFilter.innerHTML += `<option value="${position}">${position}</option>`;
+    });
+
+    positionTypeFilter.addEventListener('change', () => {
+        const selectedPosition = positionTypeFilter.value;
+        const filteredPositions = selectedPosition
+            ? positions.filter(pos => pos.positionName === selectedPosition)
+            : positions;
+        populateTable('positions', filteredPositions);
+    });
+}
+
 async function editEntity(entityName, entityId) {
     try {
         const response = await fetch(`/api/${entityName}/${entityId}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const entity = await response.json();
-        
+
         const modal = document.getElementById('update-modal');
         const form = document.getElementById(`update-${entityName.slice(0, -1)}-form`);
-        
+
+        modal.style.display = 'block';
+
+        // Reload dropdowns for the edit form, passing the form as a parameter
+        await reloadDropdownsForEdit(entityName, form);
+
+        // Populate the form fields with the fetched entity data
         for (const key in entity) {
             const input = form.elements[key]; // Access elements directly by name
 
             if (input) {
                 if (input.tagName === 'SELECT') {
-                    input.value = entity[key];  // Set the selected option
+                    input.value = entity[key];  // Select the current option
                 } else {
                     input.value = entity[key];
                 }
             }
         }
-        
-        modal.style.display = 'block';
 
         const closeBtn = modal.querySelector('.close');
         closeBtn.onclick = () => modal.style.display = 'none';
@@ -302,11 +511,13 @@ async function editEntity(entityName, entityId) {
             e.preventDefault();
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-            
+
             try {
                 const updateResponse = await fetch(`/api/${entityName}/${entityId}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(data)
                 });
 
@@ -325,6 +536,46 @@ async function editEntity(entityName, entityId) {
     } catch (error) {
         console.error('Edit Error:', error);
         alert(`Failed to load ${entityName.slice(0, -1)} data: ${error.message}`);
+    }
+}
+
+async function reloadDropdownsForEdit(entityName, form) {
+    const dropdownConfig = {
+        'orders': [
+            { id: 'update-storeID', entity: 'stores', value: 'storeID', display: 'city' },
+            { id: 'update-customerID', entity: 'customers', value: 'customerID', display: 'lastName' }
+        ],
+        'phones': [
+            { id: 'update-customerID', entity: 'customers', value: 'customerID', display: 'lastName' }  
+        ],
+        'employees': [
+            { id: 'update-storeID', entity: 'stores', value: 'storeID', display: 'city' },
+            { id: 'update-positionID', entity: 'positions', value: 'positionID', display: 'positionName' }
+        ],
+        'storepositions': [
+            { id: 'update-storeID', entity: 'stores', value: 'storeID', display: 'city' },
+            { id: 'update-positionID', entity: 'positions', value: 'positionID', display: 'positionName' }
+        ],
+        'orderitems': [
+            { id: 'update-orderID', entity: 'orders', value: 'orderID', display: 'orderID' },
+            { id: 'update-menuID', entity: 'menuitems', value: 'menuID', display: 'itemName' }
+        ]
+    };
+
+    const config = dropdownConfig[entityName] || [];
+    for (const { id, entity, value, display } of config) {
+        // Use the passed form to find the select element within the modal
+        const select = document.getElementById(id);
+        if (!select) continue;
+
+        const data = await fetchEntities(entity);
+        select.innerHTML = '<option value="">Select an option</option>';
+        data.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item[value];
+            option.textContent = `${item[value]} - ${item[display]}`;
+            select.appendChild(option);
+        });
     }
 }
 

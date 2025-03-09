@@ -24,8 +24,12 @@
         </section>
         <section id="position-list">
             <h2>Position List</h2>
+            <!-- Filter by Position Type -->
             <div class="search-filter">
-                <input type="text" id="position-search" placeholder="Search positions...">
+                <select id="position-type-filter">
+                    <option value="">All Position Types</option>
+                    <!-- Position options will be dynamically populated -->
+                </select>
             </div>
             <table id="positions-table">
                 <thead>

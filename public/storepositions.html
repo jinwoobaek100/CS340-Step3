@@ -31,8 +31,19 @@
         </section>
         <section id="storeposition-list">
             <h2>Store Position List</h2>
+            <!-- Filter by Store -->
             <div class="search-filter">
-                <input type="text" id="storeposition-search" placeholder="Search store positions...">
+                <select id="store-filter">
+                    <option value="">All Stores</option>
+                    <!-- Store options will be dynamically populated -->
+                </select>
+            </div>
+            <!-- Filter by Position -->
+            <div class="search-filter">
+                <select id="position-filter">
+                    <option value="">All Positions</option>
+                    <!-- Position options will be dynamically populated -->
+                </select>
             </div>
             <table id="storepositions-table">
                 <thead>

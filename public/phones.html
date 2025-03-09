@@ -35,8 +35,12 @@
         </section>
         <section id="phone-list">
             <h2>Phone List</h2>
+            <!-- Filter by Customer -->
             <div class="search-filter">
-                <input type="text" id="phone-search" placeholder="Search phones...">
+                <select id="areacode-filter">
+                    <option value="">All Area Codes</option>
+                    <!-- Customer options will be dynamically populated -->
+                </select>
             </div>
             <table id="phones-table">
                 <thead>

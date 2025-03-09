@@ -37,8 +37,12 @@
         </section>
         <section id="orderitem-list">
             <h2>Order Item List</h2>
+            <!-- Filter by Menu Item -->
             <div class="search-filter">
-                <input type="text" id="orderitem-search" placeholder="Search order items...">
+                <select id="menu-filter">
+                    <option value="">All Menu Items</option>
+                    <!-- Options will be dynamically populated -->
+                </select>
             </div>
             <table id="orderitems-table">
                 <thead>

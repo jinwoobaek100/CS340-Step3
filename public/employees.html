@@ -40,8 +40,12 @@
         </section>
         <section id="employee-list">
             <h2>Employee List</h2>
+            <!-- Filter by Position -->
             <div class="search-filter">
-                <input type="text" id="employee-search" placeholder="Search employees...">
+                <select id="position-filter">
+                    <option value="">All Positions</option>
+                    <!-- Position options will be dynamically populated -->
+                </select>
             </div>
             <table id="employees-table">
                 <thead>

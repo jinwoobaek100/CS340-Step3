@@ -33,9 +33,18 @@
         </section>
         <section id="customer-list">
             <h2>Customer List</h2>
+            <!-- Filter by Loyalty Points -->
             <div class="search-filter">
-                <input type="text" id="customer-search" placeholder="Search customers...">
+                <select id="loyalty-filter">
+                    <option value="">All Loyalty Points</option>
+                    <option value="<100">Less than 100</option>
+                    <option value="<500">Less than 500</option>
+                    <option value="<1000">Less than 1000</option>
+                    <option value=">=1000">1000 or more</option>
+                </select>
             </div>
+
+            <!-- Customer Table -->
             <table id="customers-table">
                 <thead>
                     <tr>

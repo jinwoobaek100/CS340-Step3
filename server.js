@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const PORT = 9872;
+const PORT = 9874;
 const mysql = require('mysql');
 
 app.use(express.json());
@@ -72,9 +72,9 @@ const setupRoutes = () => {
 
     // Helper function to handle GET requests
     const handleGet = (app, entityName, idField) => {
-        app.get(`/api/${entityName}`, async (req, res, next) => {
+        app.get(`/api/${entityName.toLowerCase()}`, async (req, res, next) => {
             try {
-                const selectQuery = findSQLQuery(`-- Query for SELECT all ${entityName}.`);
+                const selectQuery = findSQLQuery(`-- Query for SELECT all ${entityName}`);
                 if (!selectQuery) {
                     return res.status(500).json({ error: `SELECT query for ${entityName} not found` });
                 }
@@ -85,7 +85,7 @@ const setupRoutes = () => {
             }
         });
 
-        app.get(`/api/${entityName}/:id`, async (req, res, next) => {
+        app.get(`/api/${entityName.toLowerCase()}/:id`, async (req, res, next) => {
             try {
                 const id = req.params.id;
                 const sql = `SELECT * FROM ${entityName} WHERE ${idField} = ?`;
@@ -106,7 +106,7 @@ const setupRoutes = () => {
         app.post(`/api/${entityName}`, async (req, res, next) => {
             try {
                 const data = req.body;
-                const insertQuery = findSQLQuery(`-- Query for INSERT ${entityName}.`);
+                const insertQuery = findSQLQuery(`-- Query for INSERT ${entityName}`);
                 if (!insertQuery) {
                     return res.status(500).json({ error: `INSERT query for ${entityName} not found` });
                 }
@@ -141,7 +141,7 @@ const setupRoutes = () => {
             try {
                 const id = req.params.id;
                 const data = req.body;
-                const updateQuery = findSQLQuery(`-- Query for UPDATE ${entityName}.`);
+                const updateQuery = findSQLQuery(`-- Query for UPDATE ${entityName}`);
 
                 if (!updateQuery) {
                     return res.status(500).json({ error: `UPDATE query for ${entityName} not found` });
@@ -176,7 +176,7 @@ const setupRoutes = () => {
         app.delete(`/api/${entityName}/:id`, async (req, res, next) => {
             try {
                 const id = req.params.id;
-                const deleteQuery = findSQLQuery(`-- Query for DELETE ${entityName}.`);
+                const deleteQuery = findSQLQuery(`-- Query for DELETE ${entityName}`);
 
                 if (!deleteQuery) {
                     return res.status(500).json({ error: `DELETE query for ${entityName} not found` });
@@ -266,31 +266,6 @@ app.use((err, req, res, next) => {
         message: 'Internal Server Error',
         error: err.message
     });
-});
-
-app.get('/api/search', async (req, res, next) => {
-    try {
-        const searchTerm = req.query.term;
-
-        if (!searchTerm) {
-            return res.status(400).json({ error: 'Search term is required' });
-        }
-
-        const searchQuery = findSQLQuery(`-- Query for SEARCH.`);
-
-        if (!searchQuery) {
-            return res.status(500).json({ error: `Search query not found` });
-        }
-
-        const likeTerm = `%${searchTerm}%`; // For wildcard matching with LIKE
-        const params = Array(19).fill(likeTerm); // Create an array of 18 likeTerm values
-
-        const results = await executeQuery(searchQuery, params);
-
-        res.json(results);
-    } catch (error) {
-        next(error);
-    }
 });
 
 app.listen(PORT, '0.0.0.0', () => {
