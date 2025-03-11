@@ -42,7 +42,7 @@ async function populateDropdowns() {
     const dropdowns = {
         'storeID': { entity: 'stores', valueField: 'storeID', displayField: 'city' },
         'customerID': { entity: 'customers', valueField: 'customerID', displayField: 'lastName' },
-        'menuID': { entity: 'menuitems', valueField: 'menuID', displayField: 'itemName' },
+        'menuItemID': { entity: 'menuitems', valueField: 'menuItemID', displayField: 'itemName' },
         'orderID': { entity: 'orders', valueField: 'orderID', displayField: 'orderID' },
         'positionID': { entity: 'positions', valueField: 'positionID', displayField: 'positionName' }
     };
@@ -160,7 +160,7 @@ console.log(entity);
              order = null; // Set order to null to prevent further errors
          }
          try {
-             menuItem = await fetchRelatedEntity('menuitem', entity.menuID, 'menuitems');
+             menuItem = await fetchRelatedEntity('menuitem', entity.menuItemID, 'menuitems');
          } catch (error) {
              console.error('Error fetching menuitem:', error);
              menuItem = null; // Set menuItem to null to prevent further errors
@@ -171,8 +171,8 @@ console.log(entity);
          const cell = row.insertCell();
          if (key === 'orderID' && order) {
              cell.textContent = `${entity.orderID} - Order ${order.orderID}`; // Access the orderID
-         } else if (key === 'menuID' && menuItem) {
-             cell.textContent = `${entity.menuID} - ${menuItem.itemName}`; // Access the itemName
+         } else if (key === 'menuItemID' && menuItem) {
+             cell.textContent = `${entity.menuItemID} - ${menuItem.itemName}`; // Access the itemName
          } else {
              cell.textContent = entity[key];
          }
@@ -181,7 +181,7 @@ console.log(entity);
      const actionsCell = row.insertCell();
      const entityIdNameMap = {
         orderitems: 'orderItemID',
-        menuitems: 'menuID',
+        menuitems: 'menuItemID',
         storepositions: 'storePositionID'
     };
     const entityIdName = entityIdNameMap[entityName] || entityName.slice(0, -1) + 'ID';
@@ -558,7 +558,7 @@ async function reloadDropdownsForEdit(entityName, form) {
         ],
         'orderitems': [
             { id: 'update-orderID', entity: 'orders', value: 'orderID', display: 'orderID' },
-            { id: 'update-menuID', entity: 'menuitems', value: 'menuID', display: 'itemName' }
+            { id: 'update-menuItemID', entity: 'menuitems', value: 'menuItemID', display: 'itemName' }
         ]
     };
 

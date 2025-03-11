@@ -13,7 +13,7 @@ SELECT * FROM MenuItems;
 -- Query for SELECT all OrderItems with related information
 SELECT oi.orderItemID, oi.orderID, m.itemName, oi.quantity, oi.itemPrice
 FROM OrderItems oi
-JOIN MenuItems m ON m.menuID = oi.menuID;
+JOIN MenuItems m ON m.menuItemID = oi.menuItemID;
 
 -- Query for SELECT all Orders with related information
 SELECT o.orderID, s.streetAddress, 
@@ -53,8 +53,8 @@ INSERT INTO MenuItems (itemName, description, price, category) VALUES
 ($itemName$, $description$, $price$, $category$);
 
 -- Query for INSERT OrderItems
-INSERT INTO OrderItems (orderID, menuID, quantity, itemPrice) VALUES
-($orderID$, $menuID$, $quantity$, $itemPrice$);
+INSERT INTO OrderItems (orderID, menuItemID, quantity, itemPrice) VALUES
+($orderID$, $menuItemID$, $quantity$, $itemPrice$);
 
 -- Query for INSERT Orders
 INSERT INTO Orders (storeID, customerID, orderDate, totalAmount, orderStatus) VALUES
@@ -89,11 +89,11 @@ WHERE employeeID = $employeeID$;
 -- Query for UPDATE MenuItems
 UPDATE MenuItems
 SET itemName = $itemName$, description = $description$, price = $price$, category = $category$
-WHERE menuID = $menuID$;
+WHERE menuItemID = $menuItemID$;
 
 -- Query for UPDATE OrderItems
 UPDATE OrderItems
-SET orderID = $orderID$, menuID = $menuID$, quantity = $quantity$, itemPrice = $itemPrice$
+SET orderID = $orderID$, menuItemID = $menuItemID$, quantity = $quantity$, itemPrice = $itemPrice$
 WHERE orderItemID = $orderItemID$;
 
 -- Query for UPDATE Orders
@@ -134,7 +134,7 @@ DELETE FROM Customers WHERE customerID = $customerID$;
 DELETE FROM Employees WHERE employeeID = $employeeID$;
 
 -- Query for DELETE MenuItems
-DELETE FROM MenuItems WHERE menuID = $menuID$;
+DELETE FROM MenuItems WHERE menuItemID = $menuItemID$;
 
 -- Query for DELETE OrderItems
 DELETE FROM OrderItems WHERE orderItemID = $orderItemID$;

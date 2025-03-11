@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const PORT = 9874;
+const PORT = 9875;
 const mysql = require('mysql');
 
 app.use(express.json());
@@ -110,6 +110,9 @@ const setupRoutes = () => {
                 if (!insertQuery) {
                     return res.status(500).json({ error: `INSERT query for ${entityName} not found` });
                 }
+                if (entityName === 'MenuItems' && data.description === "") {
+                    data.description = null;
+                }
     
                 // Extract the column names from the INSERT query for replacement
                 const columnsMatch = insertQuery.match(/\(([^)]+)\)/);
@@ -208,10 +211,10 @@ const setupRoutes = () => {
     handleDelete(app, 'Stores', 'storeID'); // Add DELETE handler
 
     // MenuItems
-    handleGet(app, 'MenuItems', 'menuID');
+    handleGet(app, 'MenuItems', 'menuItemID');
     handlePost(app, 'MenuItems');
-    handlePut(app, 'MenuItems', 'menuID'); // Add PUT handler
-    handleDelete(app, 'MenuItems', 'menuID'); // Add DELETE handler
+    handlePut(app, 'MenuItems', 'menuItemID'); // Add PUT handler
+    handleDelete(app, 'MenuItems', 'menuItemID'); // Add DELETE handler
 
     // Orders (Demonstrates nullable relationship and requires a custom UPDATE)
     handleGet(app, 'Orders', 'orderID');

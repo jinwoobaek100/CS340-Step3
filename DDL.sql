@@ -33,7 +33,7 @@ CREATE TABLE Customers (
 
 -- Creating MenuItems table
 CREATE TABLE MenuItems (
-    menuID INT AUTO_INCREMENT PRIMARY KEY,
+    menuItemID INT AUTO_INCREMENT PRIMARY KEY,
     itemName VARCHAR(100) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
@@ -66,11 +66,11 @@ CREATE TABLE Phones (
 CREATE TABLE OrderItems (
     orderItemID INT AUTO_INCREMENT PRIMARY KEY,
     orderID INT NOT NULL,
-    menuID INT, -- Made FK nullable as per TA feedback
+    menuItemID INT, -- Made FK nullable as per TA feedback
     quantity INT NOT NULL,
     itemPrice DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (orderID) REFERENCES Orders(orderID) ON DELETE CASCADE,
-    FOREIGN KEY (menuID) REFERENCES MenuItems(menuID) ON DELETE CASCADE
+    FOREIGN KEY (menuItemID) REFERENCES MenuItems(menuItemID) ON DELETE CASCADE
 );
 
 -- Creating Positions Table
@@ -164,7 +164,7 @@ INSERT INTO Orders (storeID, customerID, orderDate, totalAmount, orderStatus) VA
 (4, 5, '2024-04-02 19:30:00', 22.49, 'Preparing');
 
 -- Inserting sample data into OrderItems table
-INSERT INTO OrderItems (orderID, menuID, quantity, itemPrice) VALUES
+INSERT INTO OrderItems (orderID, menuItemID, quantity, itemPrice) VALUES
 (1, 1, 2, 12.99),
 (1, 2, 1, 6.99),
 (2, 1, 1, 12.99),
