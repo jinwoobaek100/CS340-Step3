@@ -1,7 +1,0 @@
-[
-  {"orderID": 1, "storeID": 1, "customerID": 1, "orderDate": "2023-10-01 12:30:00", "totalAmount": 26.97, "orderStatus": "Completed"},
-  {"orderID": 2, "storeID": 1, "customerID": 2, "orderDate": "2023-10-01 13:15:00", "totalAmount": 18.49, "orderStatus": "Preparing"},
-  {"orderID": 3, "storeID": 3, "customerID": 3, "orderDate": "2024-03-20 18:45:00", "totalAmount": 38.97, "orderStatus": "Completed"},
-  {"orderID": 4, "storeID": 2, "customerID": 4, "orderDate": "2024-04-01 12:15:00", "totalAmount": 27.98, "orderStatus": "Preparing"},
-  {"orderID": 5, "storeID": 4, "customerID": 5, "orderDate": "2024-04-02 19:30:00", "totalAmount": 22.49, "orderStatus": "Preparing"}
-]

@@ -1,3 +1,15 @@
+/*
+ * Citation for the following SQL code:
+ * Date: 03/17/2025
+ * Adapted from:
+ * Source 1: W3Schools (January 2024) "SQL CREATE TABLE Statement" [SQL Guide]. Retrieved from https://www.w3schools.com/sql/sql_create_table.asp
+ * Source 2: Programiz (February 2024) "SQL FOREIGN KEY Constraint (With Examples)" [SQL Documentation]. Retrieved from https://www.programiz.com/sql/foreign-key
+ * Source 3: TutorialsPoint (January 2022) "SQL CREATE Table" [SQL Tutorial]. Retrieved from https://www.tutorialspoint.com/sql/sql-create-table.htm
+ * Source 4: Secoda (September 2024) "What are DDL statements? - Explanation & Examples" [Database Glossary]. Retrieved from https://www.secoda.co/glossary/what-are-ddl-statements
+ * Source 5: Dev.to (May 2024) "Mastering Data Definition Language (DDL) Statements in SQL" [SQL Best Practices]. Retrieved from https://dev.to/kellyblaire/mastering-data-definition-language-ddl-statements-in-sql-1c8m
+ * Source 6: W3Schools (March 2024) "SQL FOREIGN KEY Constraint" [SQL Guide]. Retrieved from https://www.w3schools.com/sql/sql_foreignkey.asp
+ */
+
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 

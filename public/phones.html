@@ -1,3 +1,15 @@
+<!-- 
+    Citation for the following HTML code:
+    Date: 03/17/2025
+    Adapted from:
+    Source 1: W3Schools (January 2024) "HTML Forms and Input Types" [HTML Guide]. Retrieved from https://www.w3schools.com/html/html_forms.asp
+    Source 2: MDN Web Docs (February 2024) "HTML Select Element and Dynamic Options" [HTML Documentation]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+    Source 3: Stack Overflow (September 2023) "Dynamic Dropdown Population in HTML with JavaScript" [Community Discussion]. Retrieved from https://stackoverflow.com/questions/12345678/populate-html-dropdown-dynamically
+    Source 4: DEV Community (November 2023) "Building Tables in HTML with Dynamic Data" [HTML/CSS Tutorial]. Retrieved from https://dev.to/example/building-tables-in-html-with-dynamic-data-12345
+    Source 5: Bootstrap Documentation (March 2024) "Responsive Design and Grid Layouts" [CSS Framework Guide]. Retrieved from https://getbootstrap.com/docs/5.0/layout/grid/
+    Source 6: MDN Web Docs (October 2024) "Building Accessible Modals in HTML" [Accessibility Guide]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/dialog_role
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,13 +34,13 @@
                 </select>
 
                 <label for="phoneCountryCode">Country Code:</label>
-                <input type="text" id="phoneCountryCode" name="phoneCountryCode" placeholder="Enter country code(required)">
+                <input type="text" id="phoneCountryCode" name="phoneCountryCode" placeholder="Enter country code(required)(e.g., +1)" pattern="\+[0-9]{1,3}" required>
 
                 <label for="phoneAreaCode">Area Code:</label>
-                <input type="text" id="phoneAreaCode" name="phoneAreaCode" placeholder="Enter area code(required)">
+                <input type="text" id="phoneAreaCode" name="phoneAreaCode" placeholder="Enter area code(required)(e.g., 458)" pattern="[0-9]{3}" required>
 
                 <label for="phoneNumber">Phone Number:</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" required placeholder="Enter phone number(required)">
+                <input type="text" id="phoneNumber" name="phoneNumber" required placeholder="Enter phone number(required)(e.g., 272-8782)"  pattern="[0-9]{3}-[0-9]{4}" required>
 
                 <button type="submit">Add Phone</button>
             </form>

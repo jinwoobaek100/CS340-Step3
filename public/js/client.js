@@ -1,3 +1,20 @@
+/* 
+ * Citation for the following JavaScript code:
+ * Date: 03/17/2025
+ * Adapted from:
+ * 
+ * Source 1: Mozilla Developer Network (MDN) (October 2024) "Using Fetch API" [JavaScript Documentation]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+ * Source 2: W3Schools (February 2024) "JavaScript Async and Await" [JavaScript Guide]. Retrieved from https://www.w3schools.com/js/js_async.asp
+ * Source 3: Scaler Topics (November 2022) "DOM Manipulation in JavaScript" [JavaScript Guide]. Retrieved from https://www.scaler.com/topics/javascript-dom-manipulation/
+ * Source 4: Sencha Blog (December 2023) "Event Handling in JavaScript: A Practical Guide With Examples" [JavaScript Tutorial]. Retrieved from https://www.sencha.com/blog/event-handling-in-javascript-a-practical-guide-with-examples/
+ * Source 5: DEV Community (December 2023) "Fetch API, do you really know how to handle errors?" [JavaScript Guide]. Retrieved from https://dev.to/dionarodrigues/fetch-api-do-you-really-know-how-to-handle-errors-2gj0
+ * Source 6: MDN Web Docs (October 2024) "Using FormData Objects" [Web API Documentation]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest_API/Using_FormData_Objects
+ * Source 7: Steemit (January 2018) "How to use JavaScript to create Dynamic Drop-Down Lists" [JavaScript Tutorial]. Retrieved from https://steemit.com/utopianio/@yissakhar/how-to-use-javascript-to-create-dynamic-drop-down-lists
+ * Source 8: Stack Overflow (October 2018) "How can I populate a table with JavaScript?" [Community Discussion]. Retrieved from https://stackoverflow.com/questions/52919972/how-can-i-populate-a-table-with-javascript
+ * Source 9: Next.js Documentation (February 2020) "Data Fetching Patterns and Best Practices" [React Framework Guide]. Retrieved from https://nextjs.org/docs/14/app/building-your-application/data-fetching/patterns
+ * Source 10: W3Schools (March 2024) "JavaScript DOM Event Listeners" [JavaScript Guide]. Retrieved from https://www.w3schools.com/js/js_htmldom_eventlistener.asp
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
     setupFormHandlers();
     setupTableHandlers();

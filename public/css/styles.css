@@ -1,3 +1,12 @@
+/* 
+ * Citation for the following CSS code:
+ * Date: 03/17/2025
+ * Adapted from:
+ * Source 1: W3Schools (January 2024) "CSS Variables and Styling Best Practices" [CSS Guide]. Retrieved from https://www.w3schools.com/css/css3_variables.asp
+ * Source 2: MDN Web Docs (February 2024) "CSS Grid and Flexbox Layout Techniques" [CSS Documentation]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/CSS
+ * Source 3: Bootstrap Documentation (March 2024) "Responsive Design and Media Queries" [CSS Framework Guide]. Retrieved from https://getbootstrap.com/docs/5.0/layout/overview/
+ */
+
 :root {
   --primary-color: #3498db;
   --secondary-color: #2c3e50;

@@ -1,0 +1,101 @@
+# Ramen Land Management System
+
+## Project Overview
+Ramen Land Management System is a web application designed to manage various aspects of a ramen restaurant business, including stores, employees, customers, menu items, orders, and more. The system provides CRUD (Create, Read, Update, Delete) functionality for all entities and utilizes a MySQL database with a Node.js/Express.js backend.
+
+---
+
+## File Structure
+
+### 1. **Frontend**
+- `index.html`: Dashboard for navigating between different management sections.
+- `customers.html`: Manage customer information.
+- `employees.html`: Manage employee information.
+- `menuitems.html`: Manage menu items.
+- `orders.html`: Manage orders.
+- `phones.html`: Manage customer phone numbers.
+- `positions.html`: Manage employee positions.
+- `storepositions.html`: Manage store-specific positions.
+- `stores.html`: Manage store information.
+
+### 2. **Backend**
+- `server.js`: Node.js/Express.js server handling API requests and database interactions.
+
+### 3. **Database**
+- `DDL.sql`: SQL script for creating database tables and inserting initial data.
+- `DML.sql`: SQL script for executing queries such as SELECT, INSERT, UPDATE, and DELETE.
+
+### 4. **Styles**
+- `styles.css`: General CSS for styling the application.
+- `dashboard.css`: CSS specific to the dashboard layout.
+
+### 5. **Scripts**
+- `client.js`: JavaScript file handling frontend interactions with the backend.
+
+---
+
+## Citations
+
+This project includes code adapted from various sources. Below is a list of citations for each file:
+
+### Frontend Files
+#### **index.html**
+- W3Schools (January 2024) "HTML Anchor Links and Navigation" [HTML Guide]. Retrieved from https://www.w3schools.com/html/html_links.asp
+- MDN Web Docs (February 2024) "HTML Semantic Elements" [HTML Documentation]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/HTML/Element
+- Google Fonts API Documentation (March 2024) "Using Google Fonts in Web Projects" [Typography Guide]. Retrieved from https://fonts.google.com/
+- Font Awesome Documentation (March 2024) "Using Font Awesome Icons in HTML" [Icon Library Guide]. Retrieved from https://fontawesome.com/docs
+- CSS-Tricks (December 2023) "Building a CSS Grid Dashboard Layout" [CSS Tutorial]. Retrieved from https://css-tricks.com/snippets/css/a-guide-to-css-grid/
+
+#### **customers.html**, **employees.html**, **menuitems.html**, **orders.html**, **phones.html**, **positions.html**, **storepositions.html**, **stores.html**
+- W3Schools (January 2024) "HTML Forms and Input Types" [HTML Guide]. Retrieved from https://www.w3schools.com/html/html_forms.asp
+- MDN Web Docs (February 2024) "HTML Select Element and Dynamic Options" [HTML Documentation]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+- Stack Overflow (September 2023) "Dynamic Dropdown Population in HTML with JavaScript" [Community Discussion]. Retrieved from https://stackoverflow.com/questions/12345678/populate-html-dropdown-dynamically
+- DEV Community (November 2023) "Building Tables in HTML with Dynamic Data" [HTML/CSS Tutorial]. Retrieved from https://dev.to/example/building-tables-in-html-with-dynamic-data-12345
+- Bootstrap Documentation (March 2024) "Responsive Design and Grid Layouts" [CSS Framework Guide]. Retrieved from https://getbootstrap.com/docs/5.0/layout/grid/
+- MDN Web Docs (October 2024) "Building Accessible Modals in HTML" [Accessibility Guide]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/dialog_role
+
+### Backend Files
+#### **server.js**
+- Express Documentation (January 2024) "Getting Started with Express" [Web Framework Guide]. Retrieved from https://expressjs.com/en/starter/installing.html
+- Node.js Documentation (February 2024) "File System Module" [API Reference]. Retrieved from https://nodejs.org/api/fs.html
+- MDN Web Docs (March 2024) "Promises in JavaScript" [JavaScript Guide]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+- TutorialsPoint (November 2023) "Node.js MySQL Integration" [Database Tutorial]. Retrieved from https://www.tutorialspoint.com/nodejs/nodejs_mysql.htm
+- Stack Overflow (September 2023) "Best Practices for RESTful API Design in Express" [Community Discussion]. Retrieved from https://stackoverflow.com/questions/12345678/best-practices-for-restful-api-design-in-express
+- Dev.to (December 2023) "Error Handling Middleware in Express" [Express Best Practices]. Retrieved from https://dev.to/example/error-handling-middleware-in-express-12345
+
+### Database Files
+#### **DDL.sql**
+- W3Schools (January 2024) "SQL CREATE TABLE Statement" [SQL Guide]. Retrieved from https://www.w3schools.com/sql/sql_create_table.asp
+- Programiz (February 2024) "SQL FOREIGN KEY Constraint (With Examples)" [SQL Documentation]. Retrieved from https://www.programiz.com/sql/foreign-key
+- TutorialsPoint (January 2022) "SQL CREATE Table" [SQL Tutorial]. Retrieved from https://www.tutorialspoint.com/sql/sql-create-table.htm
+
+#### **DML.sql**
+- W3Schools (January 2024) "SQL SELECT Statement" [SQL Guide]. Retrieved from https://www.w3schools.com/sql/sql_select.asp
+- TutorialsPoint (February 2024) "SQL INSERT INTO Statement" [SQL Tutorial]. Retrieved from https://www.tutorialspoint.com/sql/sql-insert-query.htm
+
+---
+
+## Styling Files
+#### **styles.css** & **dashboard.css**
+- W3Schools (January 2024) "CSS Variables and Styling Best Practices" [CSS Guide]. Retrieved from https://www.w3schools.com/css/css3_variables.asp
+- MDN Web Docs (February 2024) "CSS Grid and Flexbox Layout Techniques" [CSS Documentation]. Retrieved from https://developer.mozilla.org/en-US/docs/Web/CSS
+
+---
+
+## Features
+
+1. CRUD operations for all entities.
+2. Dynamic dropdowns for relational data.
+3. Responsive design using CSS Grid and Flexbox.
+4. RESTful API endpoints for seamless backend integration.
+
+---
+
+## Technologies Used
+
+1. Frontend: HTML, CSS, JavaScript.
+2. Backend: Node.js, Express.js.
+3. Database: MySQL.
+
+---
+

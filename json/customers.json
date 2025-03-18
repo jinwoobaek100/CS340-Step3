@@ -1,7 +1,0 @@
-[
-  {"customerID": 1, "firstName": "John", "lastName": "Doe", "email": "john.doe@email.com", "loyaltyPoints": 150},
-  {"customerID": 2, "firstName": "Jane", "lastName": "Smith", "email": "jane.smith@email.com", "loyaltyPoints": 75},
-  {"customerID": 3, "firstName": "Michael", "lastName": "Chen", "email": "michael.chen@email.com", "loyaltyPoints": 200},
-  {"customerID": 4, "firstName": "Sarah", "lastName": "Johnson", "email": "sarah.j@email.com", "loyaltyPoints": 50},
-  {"customerID": 5, "firstName": "Carlos", "lastName": "Gomez", "email": "c.gomez@email.com", "loyaltyPoints": 0}
-]
